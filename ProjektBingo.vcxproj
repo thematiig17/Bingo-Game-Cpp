@@ -127,9 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Gra.cpp" />
     <ClCompile Include="ProjektBingo.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Funkcje.cpp" />
+    <ClCompile Include="Random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
