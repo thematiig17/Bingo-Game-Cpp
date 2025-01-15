@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+struct aktualnaKarta;
+
 void menuGlowne();
 void instrukcja();
 void wyczyscEkranWindows();
@@ -19,3 +21,4 @@ void napiszDuzaLiczbe(int);
 void ustawPozycjeKursora(int x, int y);
 void ustawRozmiarKonsoli(int, int);
 void enableVirtualTerminalProcessing();
+void kartaBingoAmerykanskie(aktualnaKarta);

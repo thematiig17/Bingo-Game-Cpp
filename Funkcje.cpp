@@ -18,11 +18,11 @@ void napiszDuzaLiczbe(int liczba) {
 	else {
 		int liczbaDziesiatek = liczba / 10;
 		int liczbaJednosci = liczba % 10;
-		//cout << "\033[47m";
-		//cout << "\033[30m";
+		//cout << "\033[47m" - białe tło;
+		//cout << "\033[30m" - czarny tekst;
 		switch (liczbaDziesiatek) {
 		case 0:
-			cout << " ## " << "\033[1B\033[4D";
+			cout << " ## " << "\033[1B\033[4D"; //kody ANSI do przesuniecia kursora w konsoli o jeden w dol, i cztery w lewo
 			cout << "#  #" << "\033[1B\033[4D";
 			cout << "#  #" << "\033[1B\033[4D";
 			cout << "#  #" << "\033[1B\033[4D";
@@ -67,8 +67,7 @@ void napiszDuzaLiczbe(int liczba) {
 			cout << "   #" << "\033[1B\033[4D";
 			break;
 		case 5:
-			//cout << "\033[1B";
-			cout << "### " << "\033[1B\033[4D"; //kody ANSI do przesuniecia kursora w konsoli o jeden w dol, i cztery w lewo
+			cout << "### " << "\033[1B\033[4D";
 			cout << "#   " << "\033[1B\033[4D";
 			cout << "#   " << "\033[1B\033[4D";
 			cout << "##  " << "\033[1B\033[4D";
@@ -119,7 +118,7 @@ void napiszDuzaLiczbe(int liczba) {
 
 		switch (liczbaJednosci) {
 		case 0:
-			cout << " ## " << "\033[1B\033[4D";
+			cout << " ## " << "\033[1B\033[4D"; //kody ANSI do przesuniecia kursora w konsoli o jeden w dol, i cztery w lewo
 			cout << "#  #" << "\033[1B\033[4D";
 			cout << "#  #" << "\033[1B\033[4D";
 			cout << "#  #" << "\033[1B\033[4D";
@@ -164,8 +163,7 @@ void napiszDuzaLiczbe(int liczba) {
 			cout << "   #" << "\033[1B\033[4D";
 			break;
 		case 5:
-			//cout << "\033[1B";
-			cout << "### " << "\033[1B\033[4D"; //kody ANSI do przesuniecia kursora w konsoli o jeden w dol, i cztery w lewo
+			cout << "### " << "\033[1B\033[4D";
 			cout << "#   " << "\033[1B\033[4D";
 			cout << "#   " << "\033[1B\033[4D";
 			cout << "##  " << "\033[1B\033[4D";
@@ -214,37 +212,14 @@ void napiszDuzaLiczbe(int liczba) {
 	}
 
 }
-void enableVirtualTerminalProcessing() {
+void enableVirtualTerminalProcessing() { //umozliwia wykorzystanie kodów ANSI w konsoli Windows, uruchamiana tylko na poczatku w main()
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	DWORD mode;
 	GetConsoleMode(hConsole, &mode);
 	mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 	SetConsoleMode(hConsole, mode);
 }
-void ustawPozycjeKursora(int x, int y) {
+void ustawPozycjeKursora(int x, int y) { //ustawienie kursora na pozadanych koordynatach w konsoli
 	// Sekwencja ANSI: "\033[y;xH"
 	cout << "\033[" << y << ";" << x << "H";
 }
-
-/*void ustawRozmiarKonsoli(int width, int height) {
-	// Uzyskaj uchwyt do aktywnej konsoli
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	if (hConsole == INVALID_HANDLE_VALUE) {
-		std::cout << "Błąd: Nie można uzyskać uchwytu konsoli.\n";
-		return;
-	}
-
-	// Ustaw rozmiar okna konsoli
-	SMALL_RECT windowSize = { 0, 0, static_cast<SHORT>(width - 1), static_cast<SHORT>(height - 1) };
-	if (!SetConsoleWindowInfo(hConsole, TRUE, &windowSize)) {
-		std::cout << "Błąd: Nie można ustawić rozmiaru okna konsoli.\n";
-		return;
-	}
-
-	// Ustaw rozmiar bufora ekranu
-	COORD bufferSize = { static_cast<SHORT>(width), static_cast<SHORT>(height) };
-	if (!SetConsoleScreenBufferSize(hConsole, bufferSize)) {
-		std::cout << "Błąd: Nie można ustawić rozmiaru bufora ekranu.\n";
-		return;
-	}
-}*/

@@ -1,7 +1,35 @@
-#include <iostream>
+﻿#include <iostream>
 #include "Header.h"
 #include <cstdlib>
 using namespace std;
+
+struct aktualnaKarta {
+	int wylosowaneNumery[25]{};
+	bool sprawdzWystepowanie(int wylosowanaLiczba) {
+		for (size_t i = 0; i < 25; i++)
+		{
+			if (wylosowanaLiczba == wylosowaneNumery[i])
+			{
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	void wygenerujNumery() {
+		for (size_t i = 0; i < 25; i++)
+		{
+			int wylosowanaLiczba;
+			do {
+				wylosowanaLiczba = losowaSeed(losowyUInt());
+			} while (sprawdzWystepowanie(wylosowanaLiczba) == true);
+			wylosowaneNumery[i] = wylosowanaLiczba;
+		}
+	}
+};
+
+
 
 void testLosowanie(unsigned int seed) {
 	cout << "Start testu!" << endl;
@@ -13,6 +41,8 @@ void testLosowanie(unsigned int seed) {
 void ekranGry(int wygenerowanySeed) {
 	int i = 0;
 	int wylosowaneLiczby[90]{}; //tablica na wylosowane liczby
+	aktualnaKarta karta;
+	karta.wygenerujNumery();
 	while (i < 20) {
 		wyczyscEkranANSI();
 		int losowaLiczba = losowaSeed(wygenerowanySeed + i * 10);
@@ -35,11 +65,51 @@ void ekranGry(int wygenerowanySeed) {
 		napiszDuzaLiczbe(losowaLiczba);
 		cout << endl;
 		cout << "Losowanie " << i << ": " << losowaLiczba << endl;
+		kartaBingoAmerykanskie(karta);
 		system("pause");
 		i++;
+		
 	}
 
 	system("pause");
 	menuGlowne();
+}
+
+void kartaBingoAmerykanskie(aktualnaKarta karta) {
+	
+	int wierszLiczb = 0;
+	for (size_t i = 0; i < 11; i++)
+	{
+		if (i == 0)
+		{
+			cout << "╔══╦══╦══╦══╦══╗" << endl;
+		}
+		else if (i % 2 == 0 && i != 10) {
+			cout << "╠══╬══╬══╬══╬══╣" << endl;
+		}
+		else if (i % 2 == 1) {
+			cout << "║";
+			for (size_t j = 0; j < 5; j++)
+			{
+				if (wierszLiczb == 2 && j == 2) {
+					cout << " F║";
+					karta.wylosowaneNumery[i] = 100;
+				}
+				else
+				{
+					if (karta.wylosowaneNumery[(wierszLiczb * 5) + j] < 10) {
+						cout << " ";
+					}
+					//cout << "i:"<<i<<"j:" <<j<< "ro:" << (wierszLiczb * 5)  + j <<"\t"; //debug
+					cout << karta.wylosowaneNumery[(wierszLiczb * 5) + j] << "║";
+				}
+			}
+			cout << endl;
+			wierszLiczb++;
+		}
+		else if (i == 10) {
+			cout << "╚══╩══╩══╩══╩══╝" << endl;
+		}
+	}
 }
 
