@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Gra.cpp" />
+    <ClCompile Include="ObslugaPlikow.cpp" />
     <ClCompile Include="ProjektBingo.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Funkcje.cpp" />
@@ -135,6 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="wyniki.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -14,7 +14,8 @@ void menuGlowne() {
 	cout << endl;
 	cout << "1. Graj!" << endl;
 	cout << "2. Instrukcja" << endl;
-	cout << "3. Wyjdz (4 - test losowania)" << endl;
+	cout << "3. Top 10 wynikow" << endl;
+	cout << "4. Wyjdz (5 - test losowania)" << endl;
 	cout << endl;
 	cout << "Twoj wybor: ";
 	int wybor = 0; //wybor opcji w menu
@@ -35,12 +36,14 @@ void menuGlowne() {
 	case 1: 
 		/*graj*/ 
 		ustawienia();
+		
 		//system("pause");
 		//menuGlowne();
 		break;
 	case 2: /*instrukcja*/ instrukcja(); break;
-	case 3: exit(0); break;
-	case 4: testLosowanie(12345678); break;
+	case 3: /*highscore*/ top10wynikow();
+	case 4: exit(0); break;
+	case 5: testLosowanie(12345678); break;
 	default: 
 		cout << "Wybierz poprawna opcje!" << endl; 
 		system("pause"); 
@@ -81,7 +84,7 @@ void ustawienia() {
 	}
 	cout << endl;
 	cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
-	testLosowanie(wygenerowanySeed);
+	ekranGry(wygenerowanySeed);
 }
 void ustawienia(unsigned int seed) {
 	wyczyscEkranANSI();
@@ -107,5 +110,18 @@ void ustawienia(unsigned int seed) {
 	}
 	cout << endl;
 	cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
-	testLosowanie(seed);
+	ekranGry(seed);
+}
+
+void top10wynikow() {
+	wyczyscEkranANSI();
+	cout << "Top 10 wynikow:" << endl;
+	string* wyniki = wczytajZPliku("wyniki.txt", "wyniki");
+	for (size_t i = 0; i < 10; i++)
+	{
+		cout << i+1 << ".\t" << wyniki[i] << endl;
+	}
+	system("pause");
+	menuGlowne();
+
 }
