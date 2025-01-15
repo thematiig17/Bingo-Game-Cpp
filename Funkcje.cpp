@@ -18,7 +18,8 @@ void napiszDuzaLiczbe(int liczba) {
 	else {
 		int liczbaDziesiatek = liczba / 10;
 		int liczbaJednosci = liczba % 10;
-		
+		//cout << "\033[47m";
+		//cout << "\033[30m";
 		switch (liczbaDziesiatek) {
 		case 0:
 			cout << " ## " << "\033[1B\033[4D";
@@ -209,6 +210,7 @@ void napiszDuzaLiczbe(int liczba) {
 			cout << " ## " << "\033[1B\033[4D";
 			break;
 		}
+		cout << "\033[0m";
 	}
 
 }
