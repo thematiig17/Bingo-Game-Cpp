@@ -3,34 +3,6 @@
 #include <cstdlib>
 using namespace std;
 
-struct aktualnaKarta {
-	int wylosowaneNumery[25]{};
-	bool sprawdzWystepowanie(int wylosowanaLiczba) {
-		for (size_t i = 0; i < 25; i++)
-		{
-			if (wylosowanaLiczba == wylosowaneNumery[i])
-			{
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		return false;
-	}
-	void wygenerujNumery() {
-		for (size_t i = 0; i < 25; i++)
-		{
-			int wylosowanaLiczba;
-			do {
-				wylosowanaLiczba = losowaSeed(losowyUInt());
-			} while (sprawdzWystepowanie(wylosowanaLiczba) == true);
-			wylosowaneNumery[i] = wylosowanaLiczba;
-		}
-	}
-};
-
-
 
 void testLosowanie(unsigned int seed) {
 	cout << "Start testu!" << endl;
@@ -41,44 +13,54 @@ void testLosowanie(unsigned int seed) {
 
 void ekranGry(int wygenerowanySeed) {
 	int i = 0;
-	int wylosowaneLiczby[90]{}; //tablica na wylosowane liczby
+	
 	aktualnaKarta karta;
+	aktualnaKarta* wskaznikKarty = &karta;
+	czyKontynuowacGre kontynuacjaGry;
+	czyKontynuowacGre* wskaznikKontynuacji = &kontynuacjaGry;
 	karta.wygenerujNumery();
-	while (i < 20) { /*Petla ma za zadanie tak dlugo losowac liczbe, az nie wylosujemy liczby ktora sie nie powtorzy.*/
-		wyczyscEkranANSI();
-		int losowaLiczba;
+	wyczyscEkranANSI();
+	while (i < 20) { //petla losuje 20 liczb
+		//wyczyscEkranANSI();
+		int losowaLiczba = 0;
 		int zmianaLiczby = 0;
-		while (true) {
-			losowaLiczba = losowaSeed(wygenerowanySeed + i * 10 + zmianaLiczby);
-			if (wylosowaneLiczby[losowaLiczba] == 1) {
+		while (true && !zmianaLiczby) { /*Petla ma za zadanie tak dlugo losowac liczbe, az nie wylosujemy liczby ktora sie nie powtorzy.*/
+			losowaLiczba = losowaSeed(wygenerowanySeed + i * 10 + zmianaLiczby, 0, 90);
+			if (kontynuacjaGry.wylosowaneLiczby[losowaLiczba] == 1) {
 				zmianaLiczby++;
 				continue;
 			}
-			wylosowaneLiczby[losowaLiczba] = 1;
+			kontynuacjaGry.wylosowaneLiczby[losowaLiczba] = 1;
 			break;
 		}
+		kontynuacjaGry.kontynuujGre = false;
 
 		for (size_t i = 0; i <= 8; i++)
 		{
 			for (size_t j = 1; j <= 10; j++)
 			{
-				if (wylosowaneLiczby[(i * 10) + j] == 1) {
-					cout << "\033[32m" << ((i * 10) + j) << ".\t";
-					cout << "\033[0m";
+				ustawPozycjeKursora(i*5, j);
+				if (kontynuacjaGry.wylosowaneLiczby[(i * 10) + j] == 1) {
+					
+					cout << "\033[32m" << ((i * 10) + j) << ".\033[0m";
 				}
 				else {
-					cout << ((i * 10) + j) << ".\t";
+					cout << ((i * 10) + j) <<".";
 				}
 			}
 			cout << "\n";
 		}
-		ustawPozycjeKursora(80, 2);
+		ustawPozycjeKursora(50, 2);
 		napiszDuzaLiczbe(losowaLiczba);
-		cout << endl;
-		cout << "Losowanie " << i << ": " << losowaLiczba << endl;
-		kartaBingoAmerykanskie(karta);
-		system("pause");
-		i++;
+		cout << endl << endl << endl;
+		cout << "Losowanie " << i+1 << ": " << losowaLiczba << endl;
+		kartaBingoAmerykanskie(wskaznikKarty, kontynuacjaGry.wylosowaneLiczby, wskaznikKontynuacji);
+		//system("pause");
+		if (kontynuacjaGry.kontynuujGre)
+		{
+			
+			i++;
+		}
 		
 	}
 
@@ -86,7 +68,7 @@ void ekranGry(int wygenerowanySeed) {
 	menuGlowne();
 }
 
-void kartaBingoAmerykanskie(aktualnaKarta karta) {
+void kartaBingoAmerykanskie(aktualnaKarta* karta, int wylosowaneLiczby[], czyKontynuowacGre* kontynuacjaGry) {
 	
 	int wierszLiczb = 0;
 	for (size_t i = 0; i < 11; i++)
@@ -103,16 +85,36 @@ void kartaBingoAmerykanskie(aktualnaKarta karta) {
 			for (size_t j = 0; j < 5; j++)
 			{
 				if (wierszLiczb == 2 && j == 2) {
-					cout << " F║";
-					karta.wylosowaneNumery[i] = 100;
+					if ((wierszLiczb * 5) + j == 5 * karta->pozY + karta->pozX)
+					{
+						cout << "\033[32m";
+					}
+					if (karta->zaznaczoneNumery[(wierszLiczb * 5) + j] == 1)
+					{
+						cout << "\033[41m";
+					}
+					cout << " F" << "\033[0m" <<"║";
+					karta->wylosowaneNumery[(wierszLiczb * 5) + j] = 100;
 				}
 				else
 				{
-					if (karta.wylosowaneNumery[(wierszLiczb * 5) + j] < 10) {
+					ustawPozycjeKursora((j * 3) + 2, i + 13);
+					
+					if ((wierszLiczb * 5) + j == 5 * karta->pozY + karta->pozX)
+					{
+						cout << "\033[32m";
+					}
+					if (karta->zaznaczoneNumery[(wierszLiczb * 5) + j] == 1)
+					{
+						cout << "\033[41m";
+					}
+					if (karta->wylosowaneNumery[(wierszLiczb * 5) + j] < 10) {
 						cout << " ";
 					}
+					
 					//cout << "i:"<<i<<"j:" <<j<< "ro:" << (wierszLiczb * 5)  + j <<"\t"; //debug
-					cout << karta.wylosowaneNumery[(wierszLiczb * 5) + j] << "║";
+					
+					cout << karta->wylosowaneNumery[(wierszLiczb * 5) + j] << "\033[0m" << "║";
 				}
 			}
 			cout << endl;
@@ -121,6 +123,8 @@ void kartaBingoAmerykanskie(aktualnaKarta karta) {
 		else if (i == 10) {
 			cout << "╚══╩══╩══╩══╩══╝" << endl;
 		}
+		
 	}
+	czyKliknietoKlawisz(karta, kontynuacjaGry);
 }
 

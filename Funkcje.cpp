@@ -1,8 +1,10 @@
 ﻿#include <iostream>
 #include <windows.h>
 #include "Header.h"
+#include <conio.h>
 
 using namespace std;
+
 
 void wyczyscEkranWindows() {
 	system("cls");
@@ -222,4 +224,56 @@ void enableVirtualTerminalProcessing() { //umozliwia wykorzystanie kodów ANSI w
 void ustawPozycjeKursora(int x, int y) { //ustawienie kursora na pozadanych koordynatach w konsoli
 	// Sekwencja ANSI: "\033[y;xH"
 	cout << "\033[" << y << ";" << x << "H";
+}
+void czyKliknietoKlawisz(aktualnaKarta* karta, czyKontynuowacGre* kontynuowanieGry) {
+	bool running = true;
+	while (running) {
+		if (_kbhit()) {
+			int ch = _getch();
+			if (ch == 224) { // Arrow keys are preceded by 224
+				switch (_getch()) {
+				case 72: // Up arrow key
+					if (karta->pozY > 0)
+					{
+						karta->pozY--;
+						running = false;
+					}
+					break;
+				case 80: // Down arrow key
+					if (karta->pozY < 4)
+					{
+						karta->pozY++;
+						running = false;
+					}
+					break;
+				case 75: // Left arrow key
+					if (karta->pozX > 0)
+					{
+						karta->pozX--;
+						running = false;
+					}
+					break;
+				case 77: // Right arrow key
+					if (karta->pozX < 4)
+					{
+						karta->pozX++;
+						running = false;
+					}
+					break;
+				}
+
+			}
+			else if (ch == 27) { // Escape key to exit
+				running = false;
+			}
+			else if (ch == 13) { // Enter key
+				karta->zaznaczNumer(kontynuowanieGry->wylosowaneLiczby);
+				running = false;
+			}
+			else if (ch == 99) { // C key
+				kontynuowanieGry->kontynuujGre = true;
+				running = false;
+			}
+		}
+	}
 }

@@ -11,9 +11,9 @@ int main()
     SetConsoleOutputCP(CP_UTF8);
     enableVirtualTerminalProcessing();
 
-    //menuGlowne(); //komentowac do celu debug
+    menuGlowne(); //komentowac do celu debug
     /*debug function*/
-    ekranGry(1);
+    //ekranGry(1);
 
     cout << "Zakonczono" << endl;
     system("pause");

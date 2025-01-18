@@ -4,9 +4,9 @@
 
 using namespace std;
 
-int losowaSeed(unsigned int seed) {
+int losowaSeed(unsigned int seed, unsigned int przedzial1, unsigned int przedzial2) {
 	mt19937 generator(seed);
-	uniform_int_distribution<int> distribution(0, 90);
+	uniform_int_distribution<int> distribution(przedzial1, przedzial2);
 	return distribution(generator);
 }
 unsigned int losowyUInt() {
