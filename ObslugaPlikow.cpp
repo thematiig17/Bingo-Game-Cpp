@@ -33,7 +33,7 @@ string* wczytajZPliku(string nazwaPliku, string tekst) {
 			i++;
 		}
 		return tablica;
-		delete tablica;
+		delete[] tablica;
 	}
 	else {
 		cout << "Nie udalo sie otworzyc pliku!" << endl;

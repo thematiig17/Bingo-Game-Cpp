@@ -1,24 +1,38 @@
 #pragma once
 #include <string>
 
-struct aktualnaKarta;
-
+/*Menu.cpp*/
 void menuGlowne();
 void instrukcja();
-void wyczyscEkranWindows();
-void wyczyscEkranANSI();
-int losowaSeed(unsigned int);
-void testLosowanie(unsigned int);
-unsigned int losowyUInt();
-int sprawdzWejscie();
 void ustawienia(unsigned int);
 void ustawienia();
+void top10wynikow();
+
+/*Funkcje.cpp*/
+void wyczyscEkranWindows();
+void wyczyscEkranANSI();
+void napiszDuzaLiczbe(int);
+void enableVirtualTerminalProcessing();
+void ustawPozycjeKursora(int x, int y);
+
+/*Random.cpp*/
+int losowaSeed(unsigned int);
+unsigned int losowyUInt();
+
+/*Gra.cpp*/
+struct aktualnaKarta;
+void testLosowanie(unsigned int);
+void ekranGry(int);
+void kartaBingoAmerykanskie(aktualnaKarta);
+
+/*ObslugaPlikow.cpp*/
 void zapiszDoPliku(std::string, std::string, bool);
 std::string* wczytajZPliku(std::string, std::string);
-void top10wynikow();
-void ekranGry(int);
-void napiszDuzaLiczbe(int);
-void ustawPozycjeKursora(int x, int y);
-void ustawRozmiarKonsoli(int, int);
-void enableVirtualTerminalProcessing();
-void kartaBingoAmerykanskie(aktualnaKarta);
+
+
+
+
+
+
+
+

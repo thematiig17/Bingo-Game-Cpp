@@ -16,6 +16,7 @@ struct aktualnaKarta {
 				return false;
 			}
 		}
+		return false;
 	}
 	void wygenerujNumery() {
 		for (size_t i = 0; i < 25; i++)
@@ -43,10 +44,20 @@ void ekranGry(int wygenerowanySeed) {
 	int wylosowaneLiczby[90]{}; //tablica na wylosowane liczby
 	aktualnaKarta karta;
 	karta.wygenerujNumery();
-	while (i < 20) {
+	while (i < 20) { /*Petla ma za zadanie tak dlugo losowac liczbe, az nie wylosujemy liczby ktora sie nie powtorzy.*/
 		wyczyscEkranANSI();
-		int losowaLiczba = losowaSeed(wygenerowanySeed + i * 10);
-		wylosowaneLiczby[losowaLiczba] = 1;
+		int losowaLiczba;
+		int zmianaLiczby = 0;
+		while (true) {
+			losowaLiczba = losowaSeed(wygenerowanySeed + i * 10 + zmianaLiczby);
+			if (wylosowaneLiczby[losowaLiczba] == 1) {
+				zmianaLiczby++;
+				continue;
+			}
+			wylosowaneLiczby[losowaLiczba] = 1;
+			break;
+		}
+
 		for (size_t i = 0; i <= 8; i++)
 		{
 			for (size_t j = 1; j <= 10; j++)
