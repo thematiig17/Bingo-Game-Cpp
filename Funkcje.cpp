@@ -225,7 +225,7 @@ void ustawPozycjeKursora(int x, int y) { //ustawienie kursora na pozadanych koor
 	// Sekwencja ANSI: "\033[y;xH"
 	cout << "\033[" << y << ";" << x << "H";
 }
-void czyKliknietoKlawisz(aktualnaKarta* karta, czyKontynuowacGre* kontynuowanieGry) {
+void czyKliknietoKlawisz(KartaBingo* karta, czyKontynuowacGre* kontynuowanieGry, KartaBingo przeciwnicy[]) {
 	bool running = true;
 	while (running) {
 		if (_kbhit()) {
@@ -272,6 +272,10 @@ void czyKliknietoKlawisz(aktualnaKarta* karta, czyKontynuowacGre* kontynuowanieG
 			}
 			else if (ch == 99) { // C key
 				kontynuowanieGry->kontynuujGre = true;
+				running = false;
+			}
+			else if (ch == 112) { // P key
+				pokazPrzeciwnikow(przeciwnicy);
 				running = false;
 			}
 		}

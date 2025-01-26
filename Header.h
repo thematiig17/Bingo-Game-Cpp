@@ -30,10 +30,12 @@ void ekranGry(int);
 void zapiszDoPliku(std::string, std::string, bool);
 std::string* wczytajZPliku(std::string, std::string);
 
-struct aktualnaKarta {
+struct KartaBingo {
 	int wylosowaneNumery[25]{};
 	int pozX = 0;
 	int pozY = 0;
+	int pozycjaNaEkranieX = 0;
+	int pozycjaNaEkranieY = 0;
 	int zaznaczoneNumery[25]{};
 	bool czyBingo = false;
 	void zaznaczNumer(int numeryDoZaznaczenia[]) {
@@ -102,9 +104,10 @@ struct czyKontynuowacGre {
 	int wylosowaneLiczby[90]{};
 };
 
-void kartaBingoAmerykanskie(aktualnaKarta*, int*, czyKontynuowacGre*);
-void czyKliknietoKlawisz(aktualnaKarta*, czyKontynuowacGre*);
-
+void kartaBingoAmerykanskie(KartaBingo*, int*, czyKontynuowacGre*, KartaBingo[]);
+void czyKliknietoKlawisz(KartaBingo*, czyKontynuowacGre*, KartaBingo[]);
+void pokazPrzeciwnikow(KartaBingo[]);
+void zaznaczNumerPrzeciwnikom(KartaBingo[], int);
 
 
 

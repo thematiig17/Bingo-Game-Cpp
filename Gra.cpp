@@ -14,11 +14,25 @@ void testLosowanie(unsigned int seed) {
 void ekranGry(int wygenerowanySeed) {
 	int i = 0;
 	
-	aktualnaKarta karta;
-	aktualnaKarta* wskaznikKarty = &karta;
+	KartaBingo karta;
+	KartaBingo* wskaznikKarty = &karta;
 	czyKontynuowacGre kontynuacjaGry;
 	czyKontynuowacGre* wskaznikKontynuacji = &kontynuacjaGry;
 	karta.wygenerujNumery();
+
+	/*Generowanie przeciwnikow*/
+	KartaBingo przeciwnicy[3];
+	przeciwnicy[0].wygenerujNumery();
+	przeciwnicy[1].wygenerujNumery();
+	przeciwnicy[2].wygenerujNumery();
+
+	przeciwnicy[0].pozycjaNaEkranieX = 0;
+	przeciwnicy[0].pozycjaNaEkranieY = 4;
+	przeciwnicy[1].pozycjaNaEkranieX = 20;
+	przeciwnicy[1].pozycjaNaEkranieY = 4;
+	przeciwnicy[2].pozycjaNaEkranieX = 40;
+	przeciwnicy[2].pozycjaNaEkranieY = 4;
+
 	wyczyscEkranANSI();
 	while (i < 20) { //petla losuje 20 liczb
 		//wyczyscEkranANSI();
@@ -52,9 +66,10 @@ void ekranGry(int wygenerowanySeed) {
 		}
 		ustawPozycjeKursora(50, 2);
 		napiszDuzaLiczbe(losowaLiczba);
+		zaznaczNumerPrzeciwnikom(przeciwnicy, losowaLiczba);
 		cout << endl << endl << endl;
 		cout << "Losowanie " << i+1 << ": " << losowaLiczba << endl;
-		kartaBingoAmerykanskie(wskaznikKarty, kontynuacjaGry.wylosowaneLiczby, wskaznikKontynuacji);
+		kartaBingoAmerykanskie(wskaznikKarty, kontynuacjaGry.wylosowaneLiczby, wskaznikKontynuacji, przeciwnicy);
 		//system("pause");
 		if (kontynuacjaGry.kontynuujGre)
 		{
@@ -68,7 +83,7 @@ void ekranGry(int wygenerowanySeed) {
 	menuGlowne();
 }
 
-void kartaBingoAmerykanskie(aktualnaKarta* karta, int wylosowaneLiczby[], czyKontynuowacGre* kontynuacjaGry) {
+void kartaBingoAmerykanskie(KartaBingo* karta, int wylosowaneLiczby[], czyKontynuowacGre* kontynuacjaGry, KartaBingo przeciwnicy[]) {
 	
 	int wierszLiczb = 0;
 	for (size_t i = 0; i < 11; i++)
@@ -125,6 +140,19 @@ void kartaBingoAmerykanskie(aktualnaKarta* karta, int wylosowaneLiczby[], czyKon
 		}
 		
 	}
-	czyKliknietoKlawisz(karta, kontynuacjaGry);
+	cout << "\nAby przejsc do nastepnego losowania nacisnij klawisz C...\n";
+	czyKliknietoKlawisz(karta, kontynuacjaGry, przeciwnicy);
 }
 
+void zaznaczNumerPrzeciwnikom(KartaBingo przeciwnicy[], int wylosowanaLiczba) {
+	for (size_t i = 0; i < 3; i++)
+	{
+		for (size_t j = 0; j < 25; j++)
+		{
+			if (przeciwnicy[i].wylosowaneNumery[j] == wylosowanaLiczba)
+			{
+				przeciwnicy[i].zaznaczoneNumery[j] = 1;
+			}
+		}
+	}
+}
