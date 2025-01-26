@@ -225,7 +225,7 @@ void ustawPozycjeKursora(int x, int y) { //ustawienie kursora na pozadanych koor
 	// Sekwencja ANSI: "\033[y;xH"
 	cout << "\033[" << y << ";" << x << "H";
 }
-void czyKliknietoKlawisz(KartaBingo* karta, czyKontynuowacGre* kontynuowanieGry, KartaBingo przeciwnicy[]) {
+void czyKliknietoKlawisz(KartaBingo* karta, czyKontynuowacGre* kontynuowanieGry, KartaBingo przeciwnicy[], int iloscPrzeciwnikow) {
 	bool running = true;
 	while (running) {
 		if (_kbhit()) {
@@ -275,7 +275,7 @@ void czyKliknietoKlawisz(KartaBingo* karta, czyKontynuowacGre* kontynuowanieGry,
 				running = false;
 			}
 			else if (ch == 112) { // P key
-				pokazPrzeciwnikow(przeciwnicy);
+				pokazPrzeciwnikow(przeciwnicy, iloscPrzeciwnikow);
 				running = false;
 			}
 		}

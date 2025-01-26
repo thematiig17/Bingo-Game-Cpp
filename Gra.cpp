@@ -11,7 +11,7 @@ void testLosowanie(unsigned int seed) {
 	menuGlowne();
 }
 
-void ekranGry(int wygenerowanySeed) {
+void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
 	int i = 0;
 	
 	KartaBingo karta;
@@ -21,17 +21,14 @@ void ekranGry(int wygenerowanySeed) {
 	karta.wygenerujNumery();
 
 	/*Generowanie przeciwnikow*/
-	KartaBingo przeciwnicy[3];
-	przeciwnicy[0].wygenerujNumery();
-	przeciwnicy[1].wygenerujNumery();
-	przeciwnicy[2].wygenerujNumery();
+	KartaBingo* przeciwnicy = new KartaBingo[liczbaPrzeciwnikow];
+	for (size_t i = 0; i < liczbaPrzeciwnikow; i++)
+	{
+		przeciwnicy[i].wygenerujNumery();
+		przeciwnicy[i].pozycjaNaEkranieX = 20*i;
+		przeciwnicy[i].pozycjaNaEkranieY = 4;
+	}
 
-	przeciwnicy[0].pozycjaNaEkranieX = 0;
-	przeciwnicy[0].pozycjaNaEkranieY = 4;
-	przeciwnicy[1].pozycjaNaEkranieX = 20;
-	przeciwnicy[1].pozycjaNaEkranieY = 4;
-	przeciwnicy[2].pozycjaNaEkranieX = 40;
-	przeciwnicy[2].pozycjaNaEkranieY = 4;
 
 	wyczyscEkranANSI();
 	while (i < 20) { //petla losuje 20 liczb
@@ -66,10 +63,10 @@ void ekranGry(int wygenerowanySeed) {
 		}
 		ustawPozycjeKursora(50, 2);
 		napiszDuzaLiczbe(losowaLiczba);
-		zaznaczNumerPrzeciwnikom(przeciwnicy, losowaLiczba);
+		zaznaczNumerPrzeciwnikom(przeciwnicy, losowaLiczba, liczbaPrzeciwnikow);
 		cout << endl << endl << endl;
 		cout << "Losowanie " << i+1 << ": " << losowaLiczba << endl;
-		kartaBingoAmerykanskie(wskaznikKarty, kontynuacjaGry.wylosowaneLiczby, wskaznikKontynuacji, przeciwnicy);
+		kartaBingoAmerykanskie(wskaznikKarty, kontynuacjaGry.wylosowaneLiczby, wskaznikKontynuacji, przeciwnicy, liczbaPrzeciwnikow);
 		//system("pause");
 		if (kontynuacjaGry.kontynuujGre)
 		{
@@ -80,10 +77,11 @@ void ekranGry(int wygenerowanySeed) {
 	}
 
 	system("pause");
+	delete[] przeciwnicy;
 	menuGlowne();
 }
 
-void kartaBingoAmerykanskie(KartaBingo* karta, int wylosowaneLiczby[], czyKontynuowacGre* kontynuacjaGry, KartaBingo przeciwnicy[]) {
+void kartaBingoAmerykanskie(KartaBingo* karta, int wylosowaneLiczby[], czyKontynuowacGre* kontynuacjaGry, KartaBingo przeciwnicy[], int liczbaPrzeciwnikow) {
 	
 	int wierszLiczb = 0;
 	for (size_t i = 0; i < 11; i++)
@@ -141,11 +139,11 @@ void kartaBingoAmerykanskie(KartaBingo* karta, int wylosowaneLiczby[], czyKontyn
 		
 	}
 	cout << "\nAby przejsc do nastepnego losowania nacisnij klawisz C...\n";
-	czyKliknietoKlawisz(karta, kontynuacjaGry, przeciwnicy);
+	czyKliknietoKlawisz(karta, kontynuacjaGry, przeciwnicy, liczbaPrzeciwnikow);
 }
 
-void zaznaczNumerPrzeciwnikom(KartaBingo przeciwnicy[], int wylosowanaLiczba) {
-	for (size_t i = 0; i < 3; i++)
+void zaznaczNumerPrzeciwnikom(KartaBingo przeciwnicy[], int wylosowanaLiczba, int iloscPrzeciwnikow) {
+	for (size_t i = 0; i < iloscPrzeciwnikow; i++)
 	{
 		for (size_t j = 0; j < 25; j++)
 		{

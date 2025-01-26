@@ -59,6 +59,25 @@ void instrukcja() {
 	menuGlowne();
 }
 
+int wybierzIloscPrzeciwnikow() {
+	while (true) {
+		cout << "Wybierz ilosc przeciwnikow (1-5): ";
+		int iloscPrzeciwnikow = 0;
+		cin >> iloscPrzeciwnikow;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "Wprowadzono nieprawidlowa liczbe! Sprobuj jeszcze raz." << endl;
+		}
+		else if (iloscPrzeciwnikow < 1 || iloscPrzeciwnikow > 5) {
+			cout << "Wprowadzono liczbe spoza zakresu! Sprobuj jeszcze raz." << endl;
+		}
+		else {
+			return iloscPrzeciwnikow;
+		}
+	}
+}
+
 void ustawienia() {
 	wyczyscEkranANSI();
 	unsigned int wygenerowanySeed = losowyUInt();
@@ -83,8 +102,8 @@ void ustawienia() {
 		}
 	}
 	cout << endl;
-	cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
-	ekranGry(wygenerowanySeed);
+	//cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
+	ekranGry(wygenerowanySeed, wybierzIloscPrzeciwnikow());
 }
 void ustawienia(unsigned int seed) {
 	wyczyscEkranANSI();
@@ -109,8 +128,8 @@ void ustawienia(unsigned int seed) {
 		}
 	}
 	cout << endl;
-	cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
-	ekranGry(seed);
+	//cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
+	ekranGry(seed, wybierzIloscPrzeciwnikow());
 }
 
 void top10wynikow() {

@@ -23,7 +23,7 @@ unsigned int losowyUInt();
 
 /*Gra.cpp*/
 void testLosowanie(unsigned int);
-void ekranGry(int);
+void ekranGry(int, int);
 
 
 /*ObslugaPlikow.cpp*/
@@ -104,10 +104,10 @@ struct czyKontynuowacGre {
 	int wylosowaneLiczby[90]{};
 };
 
-void kartaBingoAmerykanskie(KartaBingo*, int*, czyKontynuowacGre*, KartaBingo[]);
-void czyKliknietoKlawisz(KartaBingo*, czyKontynuowacGre*, KartaBingo[]);
-void pokazPrzeciwnikow(KartaBingo[]);
-void zaznaczNumerPrzeciwnikom(KartaBingo[], int);
+void kartaBingoAmerykanskie(KartaBingo*, int*, czyKontynuowacGre*, KartaBingo[], int);
+void czyKliknietoKlawisz(KartaBingo*, czyKontynuowacGre*, KartaBingo[], int);
+void pokazPrzeciwnikow(KartaBingo[], int);
+void zaznaczNumerPrzeciwnikom(KartaBingo[], int, int);
 
 
 

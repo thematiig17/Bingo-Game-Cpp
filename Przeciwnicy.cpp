@@ -3,10 +3,10 @@
 
 using namespace std;
 
-void pokazPrzeciwnikow(KartaBingo przeciwnicy[]) {
+void pokazPrzeciwnikow(KartaBingo przeciwnicy[], int iloscPrzeciwnikow) {
 	wyczyscEkranANSI();
 	
-	for (size_t przeciwnik = 0; przeciwnik < 3; przeciwnik++)
+	for (size_t przeciwnik = 0; przeciwnik < iloscPrzeciwnikow; przeciwnik++)
 	{
 		ustawPozycjeKursora(przeciwnicy[przeciwnik].pozycjaNaEkranieX, przeciwnicy[przeciwnik].pozycjaNaEkranieY);
 		int wierszLiczb = 0;
