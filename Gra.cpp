@@ -33,6 +33,36 @@ void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
 	wyczyscEkranANSI();
 	while (i < 20) { //petla losuje 20 liczb
 		//wyczyscEkranANSI();
+
+		if (karta.czyBingo) {
+			
+			cout << "\033[2A\033[17CBINGO! Wygrales w "<<i+1<<" losowaniach!\033[1B\033[31D";
+			system("pause");
+			cout << "\033[0m";
+			
+			wyczyscEkranANSI();
+			cout << "WYGRANA W "<<i+1<<" LOSOWANIACH!"<<endl;
+			cout << "Czy zapisac wynik? (T/N)\ntutaj bedzie menu zapisywania pliku\n";
+			//zapisWyniku(i);
+			system("pause");
+			menuGlowne();
+			break;
+		}
+		for (size_t i = 0; i < liczbaPrzeciwnikow; i++)
+		{
+			if (przeciwnicy[i].czyBingo) {
+				piszDuzeBingo(true);
+				system("pause");
+				cout << "\033[0m";
+				wyczyscEkranANSI();
+				cout << "Niestety przegrales! Powodzenia nastepnym razem!\n";
+				system("pause");
+				menuGlowne();
+
+
+			}
+		}
+
 		int losowaLiczba = 0;
 		int zmianaLiczby = 0;
 		while (true && !zmianaLiczby) { /*Petla ma za zadanie tak dlugo losowac liczbe, az nie wylosujemy liczby ktora sie nie powtorzy.*/
@@ -72,7 +102,10 @@ void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
 		{
 			
 			i++;
+			/*DEBUG DELETE AFTER DEBUGGING*/
+			przeciwnicy[0].czyBingo = true;
 		}
+		
 		
 	}
 

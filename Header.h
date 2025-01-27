@@ -15,6 +15,7 @@ void wyczyscEkranANSI();
 void napiszDuzaLiczbe(int);
 void enableVirtualTerminalProcessing();
 void ustawPozycjeKursora(int x, int y);
+void piszDuzeBingo(bool);
 
 
 /*Random.cpp*/
@@ -96,6 +97,38 @@ struct KartaBingo {
 				break;
 			}
 		}
+	}
+	void zrobBingo() {
+		//cheat do celow testowych
+		for (size_t i = 0; i < 5; i++)
+		{
+			zaznaczoneNumery[i] = 1;
+		}
+	}
+	bool sprawdzCzyBingo() {
+		for (size_t i = 0; i < 5; i++) //poziome bingo
+		{
+			if (zaznaczoneNumery[i * 5] == 1 && zaznaczoneNumery[i * 5 + 1] == 1 && zaznaczoneNumery[i * 5 + 2] == 1 && zaznaczoneNumery[i * 5 + 3] == 1 && zaznaczoneNumery[i * 5 + 4] == 1)
+			{
+				return true;
+			}
+		}
+		for (size_t i = 0; i < 5; i++) //pionowe bingo
+		{
+			if (zaznaczoneNumery[i] == 1 && zaznaczoneNumery[i + 5] == 1 && zaznaczoneNumery[i + 10] == 1 && zaznaczoneNumery[i + 15] == 1 && zaznaczoneNumery[i + 20] == 1)
+			{
+				return true;
+			}
+		}
+		if (zaznaczoneNumery[0] == 1 && zaznaczoneNumery[6] == 1 && zaznaczoneNumery[12] == 1 && zaznaczoneNumery[18] == 1 && zaznaczoneNumery[24] == 1) //przekatne bingo
+		{
+			return true;
+		}
+		if (zaznaczoneNumery[4] == 1 && zaznaczoneNumery[8] == 1 && zaznaczoneNumery[12] == 1 && zaznaczoneNumery[16] == 1 && zaznaczoneNumery[20] == 1) //przekatne bingo
+		{
+			return true;
+		}
+		return false;
 	}
 };
 

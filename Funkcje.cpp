@@ -278,6 +278,81 @@ void czyKliknietoKlawisz(KartaBingo* karta, czyKontynuowacGre* kontynuowanieGry,
 				pokazPrzeciwnikow(przeciwnicy, iloscPrzeciwnikow);
 				running = false;
 			}
+			else if (ch == 98) { // B key
+				if (karta->sprawdzCzyBingo()) {
+					piszDuzeBingo(false);
+					//cout << "BINGO!"; //zrobic duzy napis bingo na caly ekran
+					karta->czyBingo = true;
+					system("pause");
+				}
+				else
+				{
+					cout << "NIE MOZESZ ZGLOSIC BINGO!";
+				}
+				running = false;
+			}
+			else if (ch == 115) { // S key - CHEAT
+				karta->zrobBingo();
+				running = false;
+			}
 		}
 	}
 }
+void piszDuzeBingo(bool czyPrzeciwnik){
+	ustawPozycjeKursora(3, 6);
+	for (size_t i = 0; i < 8; i++)
+	{
+		cout << "                                                        \033[1B\033[56D";
+	}
+	ustawPozycjeKursora(6, 6);
+	if (czyPrzeciwnik) {
+		cout << "\033[41m\033[30m";
+	}
+	else {
+		cout << "\033[42m\033[30m";
+	}
+	cout << "                                                        \033[1B\033[56D";
+	cout << "   /$$$$$$$  /$$$$$$ /$$   /$$  /$$$$$$   /$$$$$$  /$$  \033[1B\033[56D";
+	cout << "  | $$__  $$|_  $$_/| $$$ | $$ /$$__  $$ /$$__  $$| $$  \033[1B\033[56D";
+	cout << "  | $$  \\ $$  | $$  | $$$$| $$| $$  \\__/| $$  \\ $$| $$  \033[1B\033[56D";
+	cout << "  | $$$$$$$   | $$  | $$ $$ $$| $$ /$$$$| $$  | $$| $$  \033[1B\033[56D";
+	cout << "  | $$__  $$  | $$  | $$  $$$$| $$|_  $$| $$  | $$|__/  \033[1B\033[56D";
+	cout << "  | $$  \\ $$  | $$  | $$\\  $$$| $$  \\ $$| $$  | $$      \033[1B\033[56D";
+	cout << "  | $$$$$$$/ /$$$$$$| $$ \\  $$|  $$$$$$/|  $$$$$$/ /$$  \033[1B\033[56D";
+	cout << "  |_______/ |______/|__/  \\__/ \\______/  \\______/ |__/  \033[1B\033[56D";
+	cout << "                                                        \033[1B\033[56D";
+
+	if (czyPrzeciwnik)
+	{
+		cout << "          Przegrana! Przeciwnik zglosil Bingo!          \033[1B\033[56D";
+	}
+	else {
+		cout << "                    Zglosiles Bingo!                    \033[1B\033[56D";
+	}
+	cout << "                                                        \033[1B\033[56D";
+	cout << "                                                        \033[43D\033[1A";
+}
+
+/*
+   ____               _   _     ____    U  ___ u  _
+U | __")u    ___     | \ |"| U /"___|u   \/"_ \/U|"|u
+ \|  _ \/   |_"_|   <|  \| |>\| |  _ /   | | | |\| |/
+  | |_) |    | |    U| |\  |u | |_| |.-,_| |_| | |_|
+  |____/   U/| |\u   |_| \_|   \____| \_)-\___/  (_)
+ _|| \\_.-,_|___|_,-.||   \\,-._)(|_       \\    |||_
+(__) (__)\_)-' '-(_/ (_")  (_/(__)__)     (__)  (__)_)
+
+ /$$$$$$$  /$$$$$$ /$$   /$$  /$$$$$$   /$$$$$$  /$$
+| $$__  $$|_  $$_/| $$$ | $$ /$$__  $$ /$$__  $$| $$
+| $$  \ $$  | $$  | $$$$| $$| $$  \__/| $$  \ $$| $$
+| $$$$$$$   | $$  | $$ $$ $$| $$ /$$$$| $$  | $$| $$
+| $$__  $$  | $$  | $$  $$$$| $$|_  $$| $$  | $$|__/
+| $$  \ $$  | $$  | $$\  $$$| $$  \ $$| $$  | $$
+| $$$$$$$/ /$$$$$$| $$ \  $$|  $$$$$$/|  $$$$$$/ /$$
+|_______/ |______/|__/  \__/ \______/  \______/ |__/
+
+
+
+
+
+*/
