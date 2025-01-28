@@ -24,7 +24,7 @@ unsigned int losowyUInt();
 
 /*Gra.cpp*/
 void testLosowanie(unsigned int);
-void ekranGry(int, int);
+void ekranGry(unsigned int, int);
 
 
 /*ObslugaPlikow.cpp*/
@@ -64,31 +64,31 @@ struct KartaBingo {
 			{
 			case 0:
 				do {
-					wylosowanaLiczba = losowaSeed(losowyUInt(), 0, 15);
+					wylosowanaLiczba = losowaSeed(losowyUInt(), 1, 18);
 				} while (sprawdzWystepowanie(wylosowanaLiczba) == true);
 				wylosowaneNumery[i] = wylosowanaLiczba;
 				break;
 			case 1:
 				do {
-					wylosowanaLiczba = losowaSeed(losowyUInt(), 16, 30);
+					wylosowanaLiczba = losowaSeed(losowyUInt(), 19, 36);
 				} while (sprawdzWystepowanie(wylosowanaLiczba) == true);
 				wylosowaneNumery[i] = wylosowanaLiczba;
 				break;
 			case 2:
 				do {
-					wylosowanaLiczba = losowaSeed(losowyUInt(), 31, 45);
+					wylosowanaLiczba = losowaSeed(losowyUInt(), 37, 54);
 				} while (sprawdzWystepowanie(wylosowanaLiczba) == true);
 				wylosowaneNumery[i] = wylosowanaLiczba;
 				break;
 			case 3:
 				do {
-					wylosowanaLiczba = losowaSeed(losowyUInt(), 46, 60);
+					wylosowanaLiczba = losowaSeed(losowyUInt(), 55, 72);
 				} while (sprawdzWystepowanie(wylosowanaLiczba) == true);
 				wylosowaneNumery[i] = wylosowanaLiczba;
 				break;
 			case 4:
 				do {
-					wylosowanaLiczba = losowaSeed(losowyUInt(), 61, 75);
+					wylosowanaLiczba = losowaSeed(losowyUInt(), 73, 90);
 				} while (sprawdzWystepowanie(wylosowanaLiczba) == true);
 				wylosowaneNumery[i] = wylosowanaLiczba;
 				break;
@@ -110,6 +110,7 @@ struct KartaBingo {
 		{
 			if (zaznaczoneNumery[i * 5] == 1 && zaznaczoneNumery[i * 5 + 1] == 1 && zaznaczoneNumery[i * 5 + 2] == 1 && zaznaczoneNumery[i * 5 + 3] == 1 && zaznaczoneNumery[i * 5 + 4] == 1)
 			{
+				czyBingo = true;
 				return true;
 			}
 		}
@@ -117,24 +118,28 @@ struct KartaBingo {
 		{
 			if (zaznaczoneNumery[i] == 1 && zaznaczoneNumery[i + 5] == 1 && zaznaczoneNumery[i + 10] == 1 && zaznaczoneNumery[i + 15] == 1 && zaznaczoneNumery[i + 20] == 1)
 			{
+				czyBingo = true;
 				return true;
 			}
 		}
 		if (zaznaczoneNumery[0] == 1 && zaznaczoneNumery[6] == 1 && zaznaczoneNumery[12] == 1 && zaznaczoneNumery[18] == 1 && zaznaczoneNumery[24] == 1) //przekatne bingo
 		{
+			czyBingo = true;
 			return true;
 		}
 		if (zaznaczoneNumery[4] == 1 && zaznaczoneNumery[8] == 1 && zaznaczoneNumery[12] == 1 && zaznaczoneNumery[16] == 1 && zaznaczoneNumery[20] == 1) //przekatne bingo
 		{
+			czyBingo = true;
 			return true;
 		}
+		czyBingo = false;
 		return false;
 	}
 };
 
 struct czyKontynuowacGre {
 	bool kontynuujGre = false;
-	int wylosowaneLiczby[90]{};
+	int wylosowaneLiczby[91]{}; //tablica z wylosowanymi liczbami, 0 - nie wylosowano, 1 - wylosowano
 };
 
 void kartaBingoAmerykanskie(KartaBingo*, int*, czyKontynuowacGre*, KartaBingo[], int);

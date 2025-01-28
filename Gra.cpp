@@ -8,10 +8,10 @@ void testLosowanie(unsigned int seed) {
 	cout << "Start testu!" << endl;
 	
 	system("pause");
-	menuGlowne();
+	return;
 }
 
-void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
+void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 	int i = 0;
 	
 	KartaBingo karta;
@@ -27,11 +27,14 @@ void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
 		przeciwnicy[i].wygenerujNumery();
 		przeciwnicy[i].pozycjaNaEkranieX = 20*i;
 		przeciwnicy[i].pozycjaNaEkranieY = 4;
+		przeciwnicy[i].wylosowaneNumery[12] = 100;
 	}
 
-
+	int losowaLiczba = 0;
+	kontynuacjaGry.kontynuujGre = true;
 	wyczyscEkranANSI();
-	while (i < 20) { //petla losuje 20 liczb
+
+	while (i < 90) { //petla losuje 90 liczb, w 90 losowaniach minimum 1 bot musi wygrac
 		//wyczyscEkranANSI();
 
 		if (karta.czyBingo) {
@@ -45,28 +48,27 @@ void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
 			cout << "Czy zapisac wynik? (T/N)\ntutaj bedzie menu zapisywania pliku\n";
 			//zapisWyniku(i);
 			system("pause");
-			menuGlowne();
-			break;
+			delete[] przeciwnicy;
+			return;
 		}
 		for (size_t i = 0; i < liczbaPrzeciwnikow; i++)
 		{
-			if (przeciwnicy[i].czyBingo) {
+			if (przeciwnicy[i].sprawdzCzyBingo()) {
 				piszDuzeBingo(true);
 				system("pause");
 				cout << "\033[0m";
+				pokazPrzeciwnikow(przeciwnicy, liczbaPrzeciwnikow);
 				wyczyscEkranANSI();
 				cout << "Niestety przegrales! Powodzenia nastepnym razem!\n";
 				system("pause");
-				menuGlowne();
-
-
+				delete[] przeciwnicy;
+				return;
 			}
 		}
 
-		int losowaLiczba = 0;
 		int zmianaLiczby = 0;
-		while (true && !zmianaLiczby) { /*Petla ma za zadanie tak dlugo losowac liczbe, az nie wylosujemy liczby ktora sie nie powtorzy.*/
-			losowaLiczba = losowaSeed(wygenerowanySeed + i * 10 + zmianaLiczby, 0, 90);
+		while (/*true && */kontynuacjaGry.kontynuujGre == true) { /*Petla ma za zadanie tak dlugo losowac liczbe, az nie wylosujemy liczby ktora sie nie powtorzy.*/
+			losowaLiczba = losowaSeed(wygenerowanySeed + (i * -7) + (zmianaLiczby * -7), 1, 90);
 			if (kontynuacjaGry.wylosowaneLiczby[losowaLiczba] == 1) {
 				zmianaLiczby++;
 				continue;
@@ -74,6 +76,7 @@ void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
 			kontynuacjaGry.wylosowaneLiczby[losowaLiczba] = 1;
 			break;
 		}
+
 		kontynuacjaGry.kontynuujGre = false;
 
 		for (size_t i = 0; i <= 8; i++)
@@ -91,11 +94,11 @@ void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
 			}
 			cout << "\n";
 		}
+		zaznaczNumerPrzeciwnikom(przeciwnicy, losowaLiczba, liczbaPrzeciwnikow);
 		ustawPozycjeKursora(50, 2);
 		napiszDuzaLiczbe(losowaLiczba);
-		zaznaczNumerPrzeciwnikom(przeciwnicy, losowaLiczba, liczbaPrzeciwnikow);
 		cout << endl << endl << endl;
-		cout << "Losowanie " << i+1 << ": " << losowaLiczba << endl;
+		cout << "Losowanie " << i+1 << ": " << losowaLiczba << "  " << endl;
 		kartaBingoAmerykanskie(wskaznikKarty, kontynuacjaGry.wylosowaneLiczby, wskaznikKontynuacji, przeciwnicy, liczbaPrzeciwnikow);
 		//system("pause");
 		if (kontynuacjaGry.kontynuujGre)
@@ -103,7 +106,7 @@ void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
 			
 			i++;
 			/*DEBUG DELETE AFTER DEBUGGING*/
-			przeciwnicy[0].czyBingo = true;
+			//przeciwnicy[0].czyBingo = true;
 		}
 		
 		
@@ -111,7 +114,7 @@ void ekranGry(int wygenerowanySeed, int liczbaPrzeciwnikow) {
 
 	system("pause");
 	delete[] przeciwnicy;
-	menuGlowne();
+	return;
 }
 
 void kartaBingoAmerykanskie(KartaBingo* karta, int wylosowaneLiczby[], czyKontynuowacGre* kontynuacjaGry, KartaBingo przeciwnicy[], int liczbaPrzeciwnikow) {
@@ -180,7 +183,7 @@ void zaznaczNumerPrzeciwnikom(KartaBingo przeciwnicy[], int wylosowanaLiczba, in
 	{
 		for (size_t j = 0; j < 25; j++)
 		{
-			if (przeciwnicy[i].wylosowaneNumery[j] == wylosowanaLiczba)
+			if (przeciwnicy[i].wylosowaneNumery[j] == wylosowanaLiczba || przeciwnicy[i].wylosowaneNumery[j] == 100)
 			{
 				przeciwnicy[i].zaznaczoneNumery[j] = 1;
 			}

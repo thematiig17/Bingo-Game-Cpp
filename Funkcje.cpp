@@ -287,7 +287,7 @@ void czyKliknietoKlawisz(KartaBingo* karta, czyKontynuowacGre* kontynuowanieGry,
 				}
 				else
 				{
-					cout << "NIE MOZESZ ZGLOSIC BINGO!";
+					//cout << "NIE MOZESZ ZGLOSIC BINGO!";
 				}
 				running = false;
 			}

@@ -4,6 +4,7 @@
 using namespace std;
 
 void menuGlowne() {
+	
 	//Ekran Glowny:
 	wyczyscEkranANSI();
 	cout << "###   #  #  #  ####  ####" << endl;
@@ -26,7 +27,7 @@ void menuGlowne() {
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << "Wybierz poprawna opcje!" << endl;
 			system("pause");
-			menuGlowne();
+			return;
 		}
 		else {
 			break;
@@ -47,7 +48,7 @@ void menuGlowne() {
 	default: 
 		cout << "Wybierz poprawna opcje!" << endl; 
 		system("pause"); 
-		menuGlowne(); 
+		return;
 		break;
 	}
 }
@@ -56,7 +57,7 @@ void instrukcja() {
 	wyczyscEkranANSI();
 	cout << "Tutaj bedzie instrukcja." << endl;
 	system("pause");
-	menuGlowne();
+	return;
 }
 
 int wybierzIloscPrzeciwnikow() {
@@ -82,20 +83,21 @@ void ustawienia() {
 	wyczyscEkranANSI();
 	unsigned int wygenerowanySeed = losowyUInt();
 	cout << "Seed Gry: " << wygenerowanySeed << endl;
-	cout << "Jezeli chcesz zagrac razem z kims\nto podaj ten sam seed w obu klientach:\n(wpisz 0 jezeli chcesz uzyc wygenerowanego seeda)" << endl;
+	cout << "Jezeli chcesz zagrac razem z kims\nto podaj ten sam seed w obu klientach:\n(seed musi byc wiekszy niz 10000)\n(wpisz 0 jezeli chcesz uzyc wygenerowanego seeda)" << endl;
 	cout << "Custom Seed: ";
 	unsigned int wprowadzonySeed = 0;
 	while (true) {
 		cin >> wprowadzonySeed;
-		if (cin.fail()) {
+		if (cin.fail() || (wprowadzonySeed < 10000 && wprowadzonySeed != 0)) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << "Wprowadzono nieprawidlowy seed! Sprobuj jeszcze raz." << endl;
 			system("pause");
-			ustawienia();
+			return;
 		}
 		else if(wprowadzonySeed != 0){
 			ustawienia(wprowadzonySeed);
+			return;
 		}
 		else {
 			break;
@@ -104,24 +106,26 @@ void ustawienia() {
 	cout << endl;
 	//cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
 	ekranGry(wygenerowanySeed, wybierzIloscPrzeciwnikow());
+	return;
 }
 void ustawienia(unsigned int seed) {
 	wyczyscEkranANSI();
 	cout << "Seed Gry: " << seed << endl;
-	cout << "Jezeli chcesz zagrac razem z kims\nto podaj ten sam seed w obu klientach:\n(wpisz 0 jezeli chcesz uzyc powyzszego seeda)" << endl;
+	cout << "Jezeli chcesz zagrac razem z kims\nto podaj ten sam seed w obu klientach:\n(seed musi byc wiekszy niz 10000)\n(wpisz 0 jezeli chcesz uzyc powyzszego seeda)" << endl;
 	cout << "Custom Seed: ";
 	unsigned int wprowadzonySeed;
 	while (true) {
 		cin >> wprowadzonySeed;
-		if (cin.fail()) {
+		if (cin.fail() || (wprowadzonySeed < 10000 && wprowadzonySeed != 0)) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << "Wprowadzono nieprawidlowy seed! Sprobuj jeszcze raz." << endl;
 			system("pause");
-			ustawienia();
+			return;
 		}
 		else if (wprowadzonySeed != 0) {
 			ustawienia(wprowadzonySeed);
+			return;
 		}
 		else {
 			break;
@@ -130,6 +134,7 @@ void ustawienia(unsigned int seed) {
 	cout << endl;
 	//cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
 	ekranGry(seed, wybierzIloscPrzeciwnikow());
+	return;
 }
 
 void top10wynikow() {
@@ -141,6 +146,6 @@ void top10wynikow() {
 		cout << i+1 << ".\t" << wyniki[i] << endl;
 	}
 	system("pause");
-	menuGlowne();
+	return;
 
 }

@@ -14,7 +14,7 @@ void pokazPrzeciwnikow(KartaBingo przeciwnicy[], int iloscPrzeciwnikow) {
 		{
 			if (i == 0)
 			{
-
+				cout << " Przeciwnik #" << przeciwnik + 1 << "\033[1B\033[14D";
 				cout << "╔══╦══╦══╦══╦══╗\033[1B\033[16D";
 			}
 			else if (i % 2 == 0 && i != 10) {
@@ -51,6 +51,15 @@ void pokazPrzeciwnikow(KartaBingo przeciwnicy[], int iloscPrzeciwnikow) {
 			}
 
 		}
+	}
+	ustawPozycjeKursora(5,20);
+	for (size_t i = 0; i < iloscPrzeciwnikow; i++)
+	{
+		if (przeciwnicy[i].czyBingo)
+		{
+			cout << "\033[41mPrzeciwnik #" << i + 1 << " zglosil Bingo!\033[0m\n";
+		}
+
 	}
 	system("pause");
 	wyczyscEkranANSI();

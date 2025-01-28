@@ -11,7 +11,10 @@ int main()
     SetConsoleOutputCP(CP_UTF8);
     enableVirtualTerminalProcessing();
 
-    menuGlowne(); //komentowac do celu debug
+	while (true) {
+		menuGlowne();
+	}
+    //komentowac do celu debug
     /*debug function*/
     //ekranGry(1);
 
