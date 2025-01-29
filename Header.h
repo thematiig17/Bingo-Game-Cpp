@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 /*Menu.cpp*/
 void menuGlowne();
@@ -26,8 +27,8 @@ void ekranGry(unsigned int, int);
 
 
 /*ObslugaPlikow.cpp*/
-void zapiszDoPliku(std::string, std::string, bool);
-std::string* wczytajZPliku(std::string, std::string);
+void zapiszDoPliku(std::string, std::string, int);
+
 
 /*Glowna struktura karty do Bingo*/
 struct KartaBingo {
@@ -146,6 +147,11 @@ struct czyKontynuowacGre {
 	int wylosowaneLiczby[91]{}; //tablica z wylosowanymi liczbami, 0 - nie wylosowano, 1 - wylosowano
 };
 
+struct pobraneDaneZPliku {
+	std::string nick;
+	int wynik;
+};
+
 /*Funkcje wykorzystujace struktury*/
 /*Dla gracza:*/
 void kartaBingoAmerykanskie(KartaBingo*, int*, czyKontynuowacGre*, KartaBingo[], int);
@@ -153,6 +159,7 @@ void czyKliknietoKlawisz(KartaBingo*, czyKontynuowacGre*, KartaBingo[], int);
 /*Dla botow:*/
 void pokazPrzeciwnikow(KartaBingo[], int);
 void zaznaczNumerPrzeciwnikom(KartaBingo[], int, int);
-
-
+/*Funkcje dotyczace zapisu/wczytywania do pliku*/
+std::vector<pobraneDaneZPliku> wczytajZPliku(std::string);
+void wypiszDaneZPliku(std::vector<pobraneDaneZPliku>);
 

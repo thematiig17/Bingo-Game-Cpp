@@ -36,7 +36,7 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 	kontynuacjaGry.kontynuujGre = true; //zmienna kontrolujaca czy kontynuowac gre
 	wyczyscEkranANSI();
 
-	while (i < 90) { //petla losuje 90 liczb, w 90 losowaniach minimum 1 bot musi wygrac
+	while (i < 90) { //petla losuje 90 liczb, tyle ile jest w Bingo
 
 		if (karta.czyBingo) { //sprawdzenie czy gracz zglosil Bingo
 			
@@ -50,7 +50,14 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 			char zapiszWynik = ' ';
 			try { //sprawdzamy czy uda sie zapisac wynik do pliku
 				cin >> zapiszWynik;
-				
+				cout << endl;
+				if (zapiszWynik == 'T' || zapiszWynik == 't') {
+					string nick = "";
+					cout << "Podaj nick: ";
+					cin >> nick;
+					zapiszDoPliku("wyniki.txt", nick, i + 1);
+					cout << "Wynik zapisany!" << endl;
+				}
 			}
 			catch (int e) { //nawet w wypadku bledu bezpiecznie usuwamy tablice przeciwnikow i wracamy do menu
 				cout << "Blad zapisywania pliku. Aktualnie nie mozna zapisac pliku. Blad: " << e << endl;
@@ -124,7 +131,8 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 		}
 	}
 
-	system("pause"); /*Gdy skonczy sie ilosc losowan (pomimo ze nie powinno do tego dojsc) to program bezpiecznie sie zakonczy usuwajac dynamicznie zarezerwowana pamiec*/
+	cout << "Nikomu nie udalo sie zglosic Bingo!"<<endl;
+	system("pause"); /*Gdy skonczy sie ilosc losowan to program bezpiecznie sie zakonczy usuwajac dynamicznie zarezerwowana pamiec*/
 	delete[] przeciwnicy;
 	return;
 }

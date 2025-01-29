@@ -63,7 +63,7 @@ void instrukcja() { //instrukcja gry
 
 int wybierzIloscPrzeciwnikow() { //wybor ilosci przeciwnikow, wykorzystywane w ustawieniach
 	while (true) {
-		cout << "Wybierz ilosc przeciwnikow (1-5): ";
+		cout << "Wybierz ilosc przeciwnikow (0-5): ";
 		int iloscPrzeciwnikow = 0;
 		cin >> iloscPrzeciwnikow;
 		if (cin.fail()) {
@@ -71,7 +71,7 @@ int wybierzIloscPrzeciwnikow() { //wybor ilosci przeciwnikow, wykorzystywane w u
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << "Wprowadzono nieprawidlowa liczbe! Sprobuj jeszcze raz." << endl;
 		}
-		else if (iloscPrzeciwnikow < 1 || iloscPrzeciwnikow > 5) {
+		else if (iloscPrzeciwnikow < 0 || iloscPrzeciwnikow > 5) {
 			cout << "Wprowadzono liczbe spoza zakresu! Sprobuj jeszcze raz." << endl;
 		}
 		else {
@@ -138,12 +138,8 @@ void ustawienia(unsigned int seed) { //ustawienia gry, wybor seeda (wybranego pr
 
 void top10wynikow() { //wyswietlenie top 10 wynikow
 	wyczyscEkranANSI();
-	cout << "Top 10 wynikow:" << endl;
-	string* wyniki = wczytajZPliku("wyniki.txt", "wyniki");
-	for (size_t i = 0; i < 10; i++)
-	{
-		cout << i+1 << ".\t" << wyniki[i] << endl;
-	}
+	cout << "Najwyzsze wyniki:" << endl << endl;
+	wypiszDaneZPliku(wczytajZPliku("wyniki.txt"));
 	system("pause");
 	return;
 
