@@ -3,6 +3,11 @@
 #include <string>
 #include <fstream>
 
+/*
+OBSLUGAPLIKOW.CPP
+FUNKCJE DOTYCZACE ZAPISU/ODCZYTU Z PLIKOW
+*/
+
 using namespace std;
 
 void zapiszDoPliku(string nazwaPliku, string tekst, bool nadpisz) {

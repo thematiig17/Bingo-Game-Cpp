@@ -3,9 +3,14 @@
 #include <cstdlib>
 using namespace std;
 
-void menuGlowne() {
-	
-	//Ekran Glowny:
+/*
+MENU.CPP
+EKRANY I FUNKCJE MENU PRZED STARTEM GRY
+*/
+
+
+void menuGlowne() { //Menu glowne gry, wybor opcji
+
 	wyczyscEkranANSI();
 	cout << "###   #  #  #  ####  ####" << endl;
 	cout << "#  #     ## #  #     #  #" << endl;
@@ -16,10 +21,11 @@ void menuGlowne() {
 	cout << "1. Graj!" << endl;
 	cout << "2. Instrukcja" << endl;
 	cout << "3. Top 10 wynikow" << endl;
-	cout << "4. Wyjdz (5 - test losowania)" << endl;
+	cout << "4. Wyjdz" << endl;
 	cout << endl;
 	cout << "Twoj wybor: ";
-	int wybor = 0; //wybor opcji w menu
+
+	int wybor = 0; //wybor uzytkownika opcji w menu
 	while (true) {
 		cin >> wybor;
 		if (cin.fail()) {
@@ -33,18 +39,12 @@ void menuGlowne() {
 			break;
 		}
 	}
-	switch (wybor) {
-	case 1: 
-		/*graj*/ 
-		ustawienia();
-		
-		//system("pause");
-		//menuGlowne();
-		break;
+
+	switch (wybor) { //wywolanie odpowiedniej funkcji w zaleznosci od wyboru
+	case 1: /*rozpoczecie gry, ustawienia*/ ustawienia(); break;
 	case 2: /*instrukcja*/ instrukcja(); break;
-	case 3: /*highscore*/ top10wynikow();
-	case 4: exit(0); break;
-	case 5: testLosowanie(12345678); break;
+	case 3: /*highscore*/ top10wynikow(); break;
+	case 4: /*wyjscie */exit(0); break;
 	default: 
 		cout << "Wybierz poprawna opcje!" << endl; 
 		system("pause"); 
@@ -53,14 +53,15 @@ void menuGlowne() {
 	}
 }
 
-void instrukcja() {
+
+void instrukcja() { //instrukcja gry
 	wyczyscEkranANSI();
 	cout << "Tutaj bedzie instrukcja." << endl;
 	system("pause");
 	return;
 }
 
-int wybierzIloscPrzeciwnikow() {
+int wybierzIloscPrzeciwnikow() { //wybor ilosci przeciwnikow, wykorzystywane w ustawieniach
 	while (true) {
 		cout << "Wybierz ilosc przeciwnikow (1-5): ";
 		int iloscPrzeciwnikow = 0;
@@ -79,7 +80,7 @@ int wybierzIloscPrzeciwnikow() {
 	}
 }
 
-void ustawienia() {
+void ustawienia() { //ustawienia gry, wybor seeda (losowany)
 	wyczyscEkranANSI();
 	unsigned int wygenerowanySeed = losowyUInt();
 	cout << "Seed Gry: " << wygenerowanySeed << endl;
@@ -90,7 +91,7 @@ void ustawienia() {
 		cin >> wprowadzonySeed;
 		if (cin.fail() || (wprowadzonySeed < 10000 && wprowadzonySeed != 0)) {
 			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cin.ignore(numeric_limits<streamsize>::max(), '\n'); //czysci bufor wejsciowy calkowicie ze wszystkich znakow do znaku nowej linii
 			cout << "Wprowadzono nieprawidlowy seed! Sprobuj jeszcze raz." << endl;
 			system("pause");
 			return;
@@ -104,11 +105,10 @@ void ustawienia() {
 		}
 	}
 	cout << endl;
-	//cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
-	ekranGry(wygenerowanySeed, wybierzIloscPrzeciwnikow());
+	ekranGry(wygenerowanySeed, wybierzIloscPrzeciwnikow()); //wywolanie funkcji gry
 	return;
 }
-void ustawienia(unsigned int seed) {
+void ustawienia(unsigned int seed) { //ustawienia gry, wybor seeda (wybranego przez uzytkownika)
 	wyczyscEkranANSI();
 	cout << "Seed Gry: " << seed << endl;
 	cout << "Jezeli chcesz zagrac razem z kims\nto podaj ten sam seed w obu klientach:\n(seed musi byc wiekszy niz 10000)\n(wpisz 0 jezeli chcesz uzyc powyzszego seeda)" << endl;
@@ -132,12 +132,11 @@ void ustawienia(unsigned int seed) {
 		}
 	}
 	cout << endl;
-	//cout << "Wszystko gotowe! Nacisnij dowolny przycisk aby rozpoczac gre!" << endl;
 	ekranGry(seed, wybierzIloscPrzeciwnikow());
 	return;
 }
 
-void top10wynikow() {
+void top10wynikow() { //wyswietlenie top 10 wynikow
 	wyczyscEkranANSI();
 	cout << "Top 10 wynikow:" << endl;
 	string* wyniki = wczytajZPliku("wyniki.txt", "wyniki");

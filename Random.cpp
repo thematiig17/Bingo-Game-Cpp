@@ -1,6 +1,11 @@
-#include <iostream>
+﻿#include <iostream>
 #include "Header.h"
 #include <random>
+
+/*
+PLIK RANDOM.CPP
+FUNKCJE DOTYCZĄCE GENEROWANIA LICZB LOSOWYCH
+*/
 
 using namespace std;
 

@@ -6,9 +6,9 @@ using namespace std;
 void pokazPrzeciwnikow(KartaBingo przeciwnicy[], int iloscPrzeciwnikow) {
 	wyczyscEkranANSI();
 	
-	for (size_t przeciwnik = 0; przeciwnik < iloscPrzeciwnikow; przeciwnik++)
+	for (size_t przeciwnik = 0; przeciwnik < iloscPrzeciwnikow; przeciwnik++) //dla kazdego przeciwnika
 	{
-		ustawPozycjeKursora(przeciwnicy[przeciwnik].pozycjaNaEkranieX, przeciwnicy[przeciwnik].pozycjaNaEkranieY);
+		ustawPozycjeKursora(przeciwnicy[przeciwnik].pozycjaNaEkranieX, przeciwnicy[przeciwnik].pozycjaNaEkranieY); //ustawia pozycje kursora na ekranie karty
 		int wierszLiczb = 0;
 		for (size_t i = 0; i < 11; i++)
 		{
@@ -30,16 +30,13 @@ void pokazPrzeciwnikow(KartaBingo przeciwnicy[], int iloscPrzeciwnikow) {
 					}
 					else
 					{
-						if (przeciwnicy[przeciwnik].zaznaczoneNumery[(wierszLiczb * 5) + j] == 1)
+						if (przeciwnicy[przeciwnik].zaznaczoneNumery[(wierszLiczb * 5) + j] == 1) //zaznacza na czerwono zaznaczone liczby
 						{
 							cout << "\033[41m";
 						}
 						if (przeciwnicy[przeciwnik].wylosowaneNumery[(wierszLiczb * 5) + j] < 10) {
 							cout << " ";
 						}
-
-						//cout << "i:"<<i<<"j:" <<j<< "ro:" << (wierszLiczb * 5)  + j <<"\t"; //debug
-
 						cout << przeciwnicy[przeciwnik].wylosowaneNumery[(wierszLiczb * 5) + j] << "\033[0m" << "║";
 					}
 				}
@@ -53,7 +50,7 @@ void pokazPrzeciwnikow(KartaBingo przeciwnicy[], int iloscPrzeciwnikow) {
 		}
 	}
 	ustawPozycjeKursora(5,20);
-	for (size_t i = 0; i < iloscPrzeciwnikow; i++)
+	for (size_t i = 0; i < iloscPrzeciwnikow; i++) //jezeli bingo to wypisuje komunikat ktory przeciwnik zglosil bingo
 	{
 		if (przeciwnicy[i].czyBingo)
 		{

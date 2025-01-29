@@ -3,41 +3,42 @@
 #include <cstdlib>
 using namespace std;
 
-
-void testLosowanie(unsigned int seed) {
-	cout << "Start testu!" << endl;
-	
-	system("pause");
-	return;
-}
+/*
+GRA.CPP
+FUNKCJE DOTYCZACE SAMEJ GRY
+NAJWAZNIEJSZY PLIK, MECHANIKA GRY
+*/
 
 void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
-	int i = 0;
-	
-	KartaBingo karta;
+
+	int i = 0; //numer losowania
+
+	/*Inicjalizacja struktur potrzebnych do gry i ich wskaznikow*/
+	KartaBingo karta; 
 	KartaBingo* wskaznikKarty = &karta;
 	czyKontynuowacGre kontynuacjaGry;
 	czyKontynuowacGre* wskaznikKontynuacji = &kontynuacjaGry;
+
+	/*Generowanie numerow w karcie gracza*/
 	karta.wygenerujNumery();
 
 	/*Generowanie przeciwnikow*/
-	KartaBingo* przeciwnicy = new KartaBingo[liczbaPrzeciwnikow];
+	KartaBingo* przeciwnicy = new KartaBingo[liczbaPrzeciwnikow]; //dynamiczna alokacja tablicy przeciwnikow w zaleznosci od ich ilosci
 	for (size_t i = 0; i < liczbaPrzeciwnikow; i++)
 	{
 		przeciwnicy[i].wygenerujNumery();
 		przeciwnicy[i].pozycjaNaEkranieX = 20*i;
 		przeciwnicy[i].pozycjaNaEkranieY = 4;
-		przeciwnicy[i].wylosowaneNumery[12] = 100;
+		przeciwnicy[i].wylosowaneNumery[12] = 100; //ustawienie "Free" na srodku planszy
 	}
 
-	int losowaLiczba = 0;
-	kontynuacjaGry.kontynuujGre = true;
+	int losowaLiczba = 0; //wylosowana liczba, przed pierwszym losowaniem 0
+	kontynuacjaGry.kontynuujGre = true; //zmienna kontrolujaca czy kontynuowac gre
 	wyczyscEkranANSI();
 
 	while (i < 90) { //petla losuje 90 liczb, w 90 losowaniach minimum 1 bot musi wygrac
-		//wyczyscEkranANSI();
 
-		if (karta.czyBingo) {
+		if (karta.czyBingo) { //sprawdzenie czy gracz zglosil Bingo
 			
 			cout << "\033[2A\033[17CBINGO! Wygrales w "<<i+1<<" losowaniach!\033[1B\033[31D";
 			system("pause");
@@ -45,13 +46,24 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 			
 			wyczyscEkranANSI();
 			cout << "WYGRANA W "<<i+1<<" LOSOWANIACH!"<<endl;
-			cout << "Czy zapisac wynik? (T/N)\ntutaj bedzie menu zapisywania pliku\n";
-			//zapisWyniku(i);
+			cout << "Czy zapisac wynik? (T/N) ";
+			char zapiszWynik = ' ';
+			try { //sprawdzamy czy uda sie zapisac wynik do pliku
+				cin >> zapiszWynik;
+				
+			}
+			catch (int e) { //nawet w wypadku bledu bezpiecznie usuwamy tablice przeciwnikow i wracamy do menu
+				cout << "Blad zapisywania pliku. Aktualnie nie mozna zapisac pliku. Blad: " << e << endl;
+				system("pause");
+				delete[] przeciwnicy;
+				return;
+			}
+			
 			system("pause");
 			delete[] przeciwnicy;
 			return;
 		}
-		for (size_t i = 0; i < liczbaPrzeciwnikow; i++)
+		for (size_t i = 0; i < liczbaPrzeciwnikow; i++) //sprawdzenie czy ktorys z botow zglosil bingo
 		{
 			if (przeciwnicy[i].sprawdzCzyBingo()) {
 				piszDuzeBingo(true);
@@ -59,16 +71,16 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 				cout << "\033[0m";
 				pokazPrzeciwnikow(przeciwnicy, liczbaPrzeciwnikow);
 				wyczyscEkranANSI();
-				cout << "Niestety przegrales! Powodzenia nastepnym razem!\n";
+				cout << "Niestety przegrales! Powodzenia nastepnym razem!\nPorada: Mniejsza ilosc przeciwnikow sprawia, ze mniej prawdopodobne ze ktorys wygra.";
 				system("pause");
 				delete[] przeciwnicy;
 				return;
 			}
 		}
 
-		int zmianaLiczby = 0;
-		while (/*true && */kontynuacjaGry.kontynuujGre == true) { /*Petla ma za zadanie tak dlugo losowac liczbe, az nie wylosujemy liczby ktora sie nie powtorzy.*/
-			losowaLiczba = losowaSeed(wygenerowanySeed + (i * -7) + (zmianaLiczby * -7), 1, 90);
+		int zmianaLiczby = 0; //zmienna sluzaca zmianie wylosowanej liczby w przypadku powtorzenia
+		while (kontynuacjaGry.kontynuujGre == true) { /*Petla ma za zadanie tak dlugo losowac liczbe, az nie wylosujemy liczby ktora sie nie powtorzy.*/
+			losowaLiczba = losowaSeed(wygenerowanySeed + (i * -7) + (zmianaLiczby * -7), 1, 90); //algorytm losowania liczby (warunek seedu wiekszego od 10000 zapewnia, ze nie wyjdziemy poza zakres)
 			if (kontynuacjaGry.wylosowaneLiczby[losowaLiczba] == 1) {
 				zmianaLiczby++;
 				continue;
@@ -77,8 +89,9 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 			break;
 		}
 
-		kontynuacjaGry.kontynuujGre = false;
+		kontynuacjaGry.kontynuujGre = false; //ustawienie zmiennej na false, aby nie kontynuowac gry dopoki nie klikniemy klawisza C
 
+		/*WYPISANIE TABLICY LICZB ZAZNACZONYCH*/
 		for (size_t i = 0; i <= 8; i++)
 		{
 			for (size_t j = 1; j <= 10; j++)
@@ -86,7 +99,7 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 				ustawPozycjeKursora(i*5, j);
 				if (kontynuacjaGry.wylosowaneLiczby[(i * 10) + j] == 1) {
 					
-					cout << "\033[32m" << ((i * 10) + j) << ".\033[0m";
+					cout << "\033[32m" << ((i * 10) + j) << ".\033[0m"; //jak liczba jest zaznaczona to jest ona kolorowana na zielono.
 				}
 				else {
 					cout << ((i * 10) + j) <<".";
@@ -94,25 +107,24 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 			}
 			cout << "\n";
 		}
-		zaznaczNumerPrzeciwnikom(przeciwnicy, losowaLiczba, liczbaPrzeciwnikow);
+
+		zaznaczNumerPrzeciwnikom(przeciwnicy, losowaLiczba, liczbaPrzeciwnikow); //zaznaczenie wylosowanego numeru na kartach przeciwnikow
+
 		ustawPozycjeKursora(50, 2);
-		napiszDuzaLiczbe(losowaLiczba);
+		napiszDuzaLiczbe(losowaLiczba); //piszemy liczbe duza czcionka po prawej stronie ekranu
+
 		cout << endl << endl << endl;
-		cout << "Losowanie " << i+1 << ": " << losowaLiczba << "  " << endl;
-		kartaBingoAmerykanskie(wskaznikKarty, kontynuacjaGry.wylosowaneLiczby, wskaznikKontynuacji, przeciwnicy, liczbaPrzeciwnikow);
-		//system("pause");
-		if (kontynuacjaGry.kontynuujGre)
+		cout << "Losowanie " << i+1 << ": " << losowaLiczba << "  " << endl; //wypisanie numeru losowania i wylosowanej liczby
+
+		kartaBingoAmerykanskie(wskaznikKarty, kontynuacjaGry.wylosowaneLiczby, wskaznikKontynuacji, przeciwnicy, liczbaPrzeciwnikow); //wyswietlenie karty gracza
+
+		if (kontynuacjaGry.kontynuujGre) //jezeli uzytkownik chce kontynuowac gre to zmienia sie numer losowania
 		{
-			
 			i++;
-			/*DEBUG DELETE AFTER DEBUGGING*/
-			//przeciwnicy[0].czyBingo = true;
 		}
-		
-		
 	}
 
-	system("pause");
+	system("pause"); /*Gdy skonczy sie ilosc losowan (pomimo ze nie powinno do tego dojsc) to program bezpiecznie sie zakonczy usuwajac dynamicznie zarezerwowana pamiec*/
 	delete[] przeciwnicy;
 	return;
 }
@@ -120,7 +132,7 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 void kartaBingoAmerykanskie(KartaBingo* karta, int wylosowaneLiczby[], czyKontynuowacGre* kontynuacjaGry, KartaBingo przeciwnicy[], int liczbaPrzeciwnikow) {
 	
 	int wierszLiczb = 0;
-	for (size_t i = 0; i < 11; i++)
+	for (size_t i = 0; i < 11; i++) //wypisanie karty gracza
 	{
 		if (i == 0)
 		{
@@ -133,37 +145,34 @@ void kartaBingoAmerykanskie(KartaBingo* karta, int wylosowaneLiczby[], czyKontyn
 			cout << "║";
 			for (size_t j = 0; j < 5; j++)
 			{
-				if (wierszLiczb == 2 && j == 2) {
-					if ((wierszLiczb * 5) + j == 5 * karta->pozY + karta->pozX)
+				if (wierszLiczb == 2 && j == 2) { //zaznaczenie pola F na srodku karty
+					if ((wierszLiczb * 5) + j == 5 * karta->pozY + karta->pozX) //jezeli uzytkownik najedzie na pole to zmieni kolor na zielony
 					{
 						cout << "\033[32m";
 					}
-					if (karta->zaznaczoneNumery[(wierszLiczb * 5) + j] == 1)
+					if (karta->zaznaczoneNumery[(wierszLiczb * 5) + j] == 1) //jezeli numer jest zaznaczony to tlo staje sie czerwone
 					{
 						cout << "\033[41m";
 					}
 					cout << " F" << "\033[0m" <<"║";
-					karta->wylosowaneNumery[(wierszLiczb * 5) + j] = 100;
+					karta->wylosowaneNumery[(wierszLiczb * 5) + j] = 100; //numer 100 oznacza "Free" na srodku karty
 				}
 				else
 				{
 					ustawPozycjeKursora((j * 3) + 2, i + 13);
 					
-					if ((wierszLiczb * 5) + j == 5 * karta->pozY + karta->pozX)
+					if ((wierszLiczb * 5) + j == 5 * karta->pozY + karta->pozX) //jezeli uzytkownik najedzie na pole to zmieni kolor na zielony
 					{
 						cout << "\033[32m";
 					}
-					if (karta->zaznaczoneNumery[(wierszLiczb * 5) + j] == 1)
+					if (karta->zaznaczoneNumery[(wierszLiczb * 5) + j] == 1) //jezeli numer jest zaznaczony to tlo staje sie czerwone
 					{
 						cout << "\033[41m";
 					}
-					if (karta->wylosowaneNumery[(wierszLiczb * 5) + j] < 10) {
+					if (karta->wylosowaneNumery[(wierszLiczb * 5) + j] < 10) { //jezeli numer jest mniejszy niz 10 to dodajemy spacje przed nim
 						cout << " ";
 					}
-					
-					//cout << "i:"<<i<<"j:" <<j<< "ro:" << (wierszLiczb * 5)  + j <<"\t"; //debug
-					
-					cout << karta->wylosowaneNumery[(wierszLiczb * 5) + j] << "\033[0m" << "║";
+					cout << karta->wylosowaneNumery[(wierszLiczb * 5) + j] << "\033[0m" << "║"; //wypisujemy liczbe
 				}
 			}
 			cout << endl;
@@ -179,7 +188,7 @@ void kartaBingoAmerykanskie(KartaBingo* karta, int wylosowaneLiczby[], czyKontyn
 }
 
 void zaznaczNumerPrzeciwnikom(KartaBingo przeciwnicy[], int wylosowanaLiczba, int iloscPrzeciwnikow) {
-	for (size_t i = 0; i < iloscPrzeciwnikow; i++)
+	for (size_t i = 0; i < iloscPrzeciwnikow; i++) //zaznacza kazdemu przeciwnikowi wylosowana liczbe
 	{
 		for (size_t j = 0; j < 25; j++)
 		{

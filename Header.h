@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-/*Struktuy*/
 
 /*Menu.cpp*/
 void menuGlowne();
@@ -13,7 +12,7 @@ void top10wynikow();
 void wyczyscEkranWindows();
 void wyczyscEkranANSI();
 void napiszDuzaLiczbe(int);
-void enableVirtualTerminalProcessing();
+void wlaczFunkcjeVirtualTerminal();
 void ustawPozycjeKursora(int x, int y);
 void piszDuzeBingo(bool);
 
@@ -23,7 +22,6 @@ int losowaSeed(unsigned int, unsigned int, unsigned int);
 unsigned int losowyUInt();
 
 /*Gra.cpp*/
-void testLosowanie(unsigned int);
 void ekranGry(unsigned int, int);
 
 
@@ -31,21 +29,24 @@ void ekranGry(unsigned int, int);
 void zapiszDoPliku(std::string, std::string, bool);
 std::string* wczytajZPliku(std::string, std::string);
 
+/*Glowna struktura karty do Bingo*/
 struct KartaBingo {
-	int wylosowaneNumery[25]{};
-	int pozX = 0;
-	int pozY = 0;
-	int pozycjaNaEkranieX = 0;
-	int pozycjaNaEkranieY = 0;
-	int zaznaczoneNumery[25]{};
-	bool czyBingo = false;
-	void zaznaczNumer(int numeryDoZaznaczenia[]) {
+	int wylosowaneNumery[25]{}; //tablica 25 liczb na karcie
+	int pozX = 0; //pozycja kursora w osi X
+	int pozY = 0; //pozycja kursora w osi Y
+	int pozycjaNaEkranieX = 0; //pozycja okienka z gra na ekranie w osi X
+	int pozycjaNaEkranieY = 0; //pozycja okienka z gra na ekranie w osi Y
+	int zaznaczoneNumery[25]{}; //tablica liczb ktore zostaly zaznaczone przez gracza/bota
+	bool czyBingo = false; //czy gracz/bot zglosil Bingo
+
+	void zaznaczNumer(int numeryDoZaznaczenia[]) { //funkcja zaznacza numer na karcie ktory zostal juz wylosowany
 		if (numeryDoZaznaczenia[wylosowaneNumery[(pozY * 5) + pozX]] || wylosowaneNumery[(pozY * 5) + pozX] == 100) //100 to znacznik "Free", na srodku planszy Amerykanskiego Binga
 		{
 			zaznaczoneNumery[(pozY * 5) + pozX] = 1;
 		}
 	}
-	bool sprawdzWystepowanie(int wylosowanaLiczba) {
+
+	bool sprawdzWystepowanie(int wylosowanaLiczba) { //sprawdza czy wylosowana liczba juz wystapila na karcie (uzywane zeby uniknac powtorzen)
 		for (size_t i = 0; i < 25; i++)
 		{
 			if (wylosowanaLiczba == wylosowaneNumery[i])
@@ -55,7 +56,8 @@ struct KartaBingo {
 		}
 		return false;
 	}
-	void wygenerujNumery() {
+
+	void wygenerujNumery() { //generuje 25 unikalnych liczb na karcie
 		for (size_t i = 0; i < 25; i++)
 		{
 			int wylosowanaLiczba = 0;
@@ -98,14 +100,15 @@ struct KartaBingo {
 			}
 		}
 	}
-	void zrobBingo() {
-		//cheat do celow testowych
+
+	void zrobBingo() { //cheat do celow testowych, tylko do prezentacji bez koniecznosci wygrania. (w wersji realese bylby usuniety)
 		for (size_t i = 0; i < 5; i++)
 		{
 			zaznaczoneNumery[i] = 1;
 		}
 	}
-	bool sprawdzCzyBingo() {
+
+	bool sprawdzCzyBingo() { //sprawdza czy na karcie wystapilo Bingo
 		for (size_t i = 0; i < 5; i++) //poziome bingo
 		{
 			if (zaznaczoneNumery[i * 5] == 1 && zaznaczoneNumery[i * 5 + 1] == 1 && zaznaczoneNumery[i * 5 + 2] == 1 && zaznaczoneNumery[i * 5 + 3] == 1 && zaznaczoneNumery[i * 5 + 4] == 1)
@@ -137,13 +140,17 @@ struct KartaBingo {
 	}
 };
 
+/*Struktura przechowujaca wartosc czy kontynuowac gre i liczby ktore zostaly wylosowane*/
 struct czyKontynuowacGre {
 	bool kontynuujGre = false;
 	int wylosowaneLiczby[91]{}; //tablica z wylosowanymi liczbami, 0 - nie wylosowano, 1 - wylosowano
 };
 
+/*Funkcje wykorzystujace struktury*/
+/*Dla gracza:*/
 void kartaBingoAmerykanskie(KartaBingo*, int*, czyKontynuowacGre*, KartaBingo[], int);
 void czyKliknietoKlawisz(KartaBingo*, czyKontynuowacGre*, KartaBingo[], int);
+/*Dla botow:*/
 void pokazPrzeciwnikow(KartaBingo[], int);
 void zaznaczNumerPrzeciwnikom(KartaBingo[], int, int);
 

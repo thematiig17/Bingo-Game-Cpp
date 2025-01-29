@@ -1,23 +1,31 @@
-#include <iostream>
+﻿#include <iostream>
 #include <windows.h>
 #include "Header.h"
+
+/*
+PLIK PROJEKTBINGO.CPP
+FUNKCJA MAIN, WEJSCIE DO PROGRAMU
+*/
 
 using namespace std;
 
 int main()
 {
-    //start programu
+    /*
+    START PROGRAMU, USTAWIENIE KONSOLI
+    */
     setlocale(LC_ALL, "en_US.UTF-8");
     SetConsoleOutputCP(CP_UTF8);
-    enableVirtualTerminalProcessing();
+    wlaczFunkcjeVirtualTerminal();
+
+    /*
+    WYWOŁANIE GŁÓWNEJ FUNKCJI
+    */
 
 	while (true) {
 		menuGlowne();
 	}
-    //komentowac do celu debug
-    /*debug function*/
-    //ekranGry(1);
 
-    cout << "Zakonczono" << endl;
+    cout << "Zakonczono gre." << endl;
     system("pause");
 }
