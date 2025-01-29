@@ -26,6 +26,6 @@ int main()
 		menuGlowne();
 	}
 
-    cout << "Zakonczono gre." << endl;
+    cout << "Zakończono gre." << endl;
     system("pause");
 }

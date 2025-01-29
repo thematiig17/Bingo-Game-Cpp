@@ -37,7 +37,7 @@ void zapiszDoPliku(string nazwaPliku, string tekst, int wynik) { //Zapisuje do p
 	vector<pobraneDaneZPliku> daneZPliku = wczytajZPliku(nazwaPliku);
 	plik.open(nazwaPliku, ios::out);
 	if (!plik.good()) {
-		cout << "Blad zapisu do pliku!" << endl;
+		cout << "Błąd zapisu do pliku!" << endl;
 		plik.close();
 		return;
 	}
@@ -84,7 +84,7 @@ vector<pobraneDaneZPliku> wczytajZPliku(string nazwaPliku) { //Wczytuje z pliku 
 				i++;
 			}
 			catch (...) { //Gdy cos jest nie tak z formatem pliku, nastepuje wyswietlenie komunikatu o uszkodzeniu pliku
-				cout << "Plik jest uszkodzony. Czy zresetowac zawartosc pliku? (T/N)"<< endl; 
+				cout << "Plik jest uszkodzony. Czy zresetować zawartość pliku? (T/N)"<< endl; 
 				char reset;
 				cin >> reset;
 				if (reset == 'T' || reset == 't') { //Wybor czy zresetowac zawartosc pliku.
@@ -92,11 +92,11 @@ vector<pobraneDaneZPliku> wczytajZPliku(string nazwaPliku) { //Wczytuje z pliku 
 					plik.open(nazwaPliku, ios::out); /*Stworzenie pustego pliku*/
 					plik << "";
 					plik.close();
-					cout << "Plik zostal wyczyszcony.";
+					cout << "Plik został wyczyszcony.";
 					return wczytajZPliku(nazwaPliku);
 				}
 				else {
-					cout << "Plik NIE zostal wyczyszcony." << endl;
+					cout << "Plik NIE został wyczyszcony." << endl;
 					vector<pobraneDaneZPliku> pusty;
 					plik.close();
 					return pusty;
@@ -106,9 +106,6 @@ vector<pobraneDaneZPliku> wczytajZPliku(string nazwaPliku) { //Wczytuje z pliku 
 		}
 		plik.close();
 		return wyniki;
-	}
-	else {
-		cout << "Nie udalo sie otworzyc pliku!" << endl;
 	}
 	vector<pobraneDaneZPliku> pusty;
 	plik.close();

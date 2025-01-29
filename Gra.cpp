@@ -59,8 +59,8 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 					cout << "Wynik zapisany!" << endl;
 				}
 			}
-			catch (int e) { //nawet w wypadku bledu bezpiecznie usuwamy tablice przeciwnikow i wracamy do menu
-				cout << "Blad zapisywania pliku. Aktualnie nie mozna zapisac pliku. Blad: " << e << endl;
+			catch (...) { //nawet w wypadku bledu bezpiecznie usuwamy tablice przeciwnikow i wracamy do menu
+				cout << "Błąd zapisywania pliku. Aktualnie nie można zapisać pliku." << endl;
 				system("pause");
 				delete[] przeciwnicy;
 				return;
@@ -131,7 +131,7 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 		}
 	}
 
-	cout << "Nikomu nie udalo sie zglosic Bingo!"<<endl;
+	cout << "Nikomu nie udało się zgłosić Bingo! Koniec gry!"<<endl;
 	system("pause"); /*Gdy skonczy sie ilosc losowan to program bezpiecznie sie zakonczy usuwajac dynamicznie zarezerwowana pamiec*/
 	delete[] przeciwnicy;
 	return;
@@ -191,7 +191,7 @@ void kartaBingoAmerykanskie(KartaBingo* karta, int wylosowaneLiczby[], czyKontyn
 		}
 		
 	}
-	cout << "\nAby przejsc do nastepnego losowania nacisnij klawisz C...\n";
+	cout << "\nAby przejść do następnego losowania naciśnij klawisz C...\n";
 	czyKliknietoKlawisz(karta, kontynuacjaGry, przeciwnicy, liczbaPrzeciwnikow);
 }
 

@@ -54,7 +54,7 @@ void pokazPrzeciwnikow(KartaBingo przeciwnicy[], int iloscPrzeciwnikow) {
 	{
 		if (przeciwnicy[i].czyBingo)
 		{
-			cout << "\033[41mPrzeciwnik #" << i + 1 << " zglosil Bingo!\033[0m\n";
+			cout << "\033[41mPrzeciwnik #" << i + 1 << " zgłosił Bingo!\033[0m\n";
 		}
 
 	}

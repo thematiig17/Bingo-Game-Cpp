@@ -321,10 +321,10 @@ void piszDuzeBingo(bool czyPrzeciwnik) { //funkcja wypisuje napis BINGO na calym
 
 	if (czyPrzeciwnik)
 	{
-		cout << "          Przegrana! Przeciwnik zglosil Bingo!          \033[1B\033[56D";
+		cout << "          Przegrana! Przeciwnik zgłosił Bingo!          \033[1B\033[56D";
 	}
 	else {
-		cout << "                    Zglosiles Bingo!                    \033[1B\033[56D";
+		cout << "                    Zgłosiłeś Bingo!                    \033[1B\033[56D";
 	}
 	cout << "                                                        \033[1B\033[56D";
 	cout << "                                                        \033[43D\033[1A";
