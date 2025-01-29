@@ -71,12 +71,12 @@ void instrukcja() { //instrukcja gry
 	cout << "# Warunki wygranej: " << endl;
 	cout << " - Gracz jako pierwszy musi zaznaczyć wymagany wzór i ogłosić Bingo." << endl;
 	cout << "# Warunki przegranej: " << endl;
-	cout << " - Jeżeli przeciwnik jako pierwszy ogłasi Bingo, wtedy następuje koniec gry." << endl;
+	cout << " - Jeżeli przeciwnik jako pierwszy ogłosi Bingo, wtedy następuje koniec gry." << endl;
 	cout << "# Sterowanie: " << endl;
 	cout << " - Strzałki: Przesuwanie kursorem po karcie." << endl;
 	cout << " - Enter: Zaznaczenie numeru (da się go tylko zaznaczyć jeżeli został wylosowany)." << endl;
 	cout << " - Klawisz C: Przejście do następnego losowania." << endl;
-	cout << " - Klawisz B: Ogłoś Bingo! (tylko jak faktycznie ma się Bingo)." << endl;
+	cout << " - Klawisz B: Ogłoś Bingo! (Funkcja zadziała tylko jak faktycznie ma się Bingo)." << endl;
 	cout << " - Klawisz P: Pokaż karty przeciwników." << endl;
 	cout << "# Ustawienia" << endl;
 	cout << " - Przed grą pojawia się ekran ustawień. W nim można dostosować dwie opcje." << endl;
