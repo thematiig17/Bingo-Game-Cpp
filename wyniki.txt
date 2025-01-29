@@ -1,5 +1,6 @@
-cztery 4
-dziewiec 9
-dziesiec 10
-10 10
-dwadziescia 20
+Weronika 39
+Mateusz 42
+Paweł 45
+Woda 53
+Jan 56
+Maks 64

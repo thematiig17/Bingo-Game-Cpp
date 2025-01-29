@@ -40,13 +40,13 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 
 		if (karta.czyBingo) { //sprawdzenie czy gracz zglosil Bingo
 			
-			cout << "\033[2A\033[17CBINGO! Wygrales w "<<i+1<<" losowaniach!\033[1B\033[31D";
+			cout << "\033[2A\033[17CBINGO! Wygrałeś w "<<i+1<<" losowaniach!\033[1B\033[31D";
 			system("pause");
 			cout << "\033[0m";
 			
 			wyczyscEkranANSI();
 			cout << "WYGRANA W "<<i+1<<" LOSOWANIACH!"<<endl;
-			cout << "Czy zapisac wynik? (T/N) ";
+			cout << "Czy zapisać wynik? (T/N)";
 			char zapiszWynik = ' ';
 			try { //sprawdzamy czy uda sie zapisac wynik do pliku
 				cin >> zapiszWynik;
@@ -78,7 +78,7 @@ void ekranGry(unsigned int wygenerowanySeed, int liczbaPrzeciwnikow) {
 				cout << "\033[0m";
 				pokazPrzeciwnikow(przeciwnicy, liczbaPrzeciwnikow);
 				wyczyscEkranANSI();
-				cout << "Niestety przegrales! Powodzenia nastepnym razem!\nPorada: Mniejsza ilosc przeciwnikow sprawia, ze mniej prawdopodobne ze ktorys wygra.";
+				cout << "Niestety przegrałeś! Powodzenia następnym razem!\nPorada: Mniejsza ilość przeciwników sprawia, że mniej prawdopodobne że któryś wygra.\n";
 				system("pause");
 				delete[] przeciwnicy;
 				return;

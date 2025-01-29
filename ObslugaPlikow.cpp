@@ -12,21 +12,11 @@ FUNKCJE DOTYCZACE ZAPISU/ODCZYTU Z PLIKOW
 
 using namespace std;
 
-vector<string> podzielString(string& str, char znak) {
-	vector<string> podzielone;
-	stringstream ss(str);
-	string slowo;
-	while (getline(ss, slowo, znak)) {
-		podzielone.push_back(slowo);
-	}
-	return podzielone;
-}
-
-bool porownanie(pobraneDaneZPliku a, pobraneDaneZPliku b) {
+bool porownanie(pobraneDaneZPliku a, pobraneDaneZPliku b) { //Porowananie do segregacji wedlug wynikow rosnaco
 	return a.wynik < b.wynik;
 }
 
-void wypiszDaneZPliku(vector<pobraneDaneZPliku> dane) {
+void wypiszDaneZPliku(vector<pobraneDaneZPliku> dane) { //Wypisuje 10 lub mniej danych z pliku
 	if (dane.size() > 10) {
 		for (size_t i = 0; i < 10; i++)
 		{
@@ -42,7 +32,7 @@ void wypiszDaneZPliku(vector<pobraneDaneZPliku> dane) {
 }
 
 
-void zapiszDoPliku(string nazwaPliku, string tekst, int wynik) {
+void zapiszDoPliku(string nazwaPliku, string tekst, int wynik) { //Zapisuje do pliku nowy wynik
 	fstream plik;
 	vector<pobraneDaneZPliku> daneZPliku = wczytajZPliku(nazwaPliku);
 	plik.open(nazwaPliku, ios::out);
@@ -65,7 +55,7 @@ void zapiszDoPliku(string nazwaPliku, string tekst, int wynik) {
 	}
 	plik.close();
 }
-vector<pobraneDaneZPliku> wczytajZPliku(string nazwaPliku) {
+vector<pobraneDaneZPliku> wczytajZPliku(string nazwaPliku) { //Wczytuje z pliku dane do vectora
 	fstream plik;
 	plik.open(nazwaPliku, ios::in);
 	if (plik.good()){
@@ -82,17 +72,24 @@ vector<pobraneDaneZPliku> wczytajZPliku(string nazwaPliku) {
 			try {
 				pobraneDaneZPliku aktualnaLinia;
 				plik >> aktualnaLinia.nick;
-				plik >> aktualnaLinia.wynik;
+				if (aktualnaLinia.nick == "") //Jezeli jest pusty to zwracamy po prostu pusty vector
+				{
+					plik.close();
+					return wyniki;
+				}
+				string wynikTekst = "";
+				plik >> wynikTekst;
+				aktualnaLinia.wynik = stoi(wynikTekst); //Konwersja aby wylapac blad
 				wyniki.push_back(aktualnaLinia);
 				i++;
 			}
-			catch (int e) {
-				cout << "Plik jest uszkodzony. Czy zresetowac zawartosc pliku? (T/N)"<< endl; /*Stworzenie pustego pliku*/
+			catch (...) { //Gdy cos jest nie tak z formatem pliku, nastepuje wyswietlenie komunikatu o uszkodzeniu pliku
+				cout << "Plik jest uszkodzony. Czy zresetowac zawartosc pliku? (T/N)"<< endl; 
 				char reset;
 				cin >> reset;
-				if (reset == 'T' || reset == 't') {
+				if (reset == 'T' || reset == 't') { //Wybor czy zresetowac zawartosc pliku.
 					plik.close();
-					plik.open(nazwaPliku, ios::out);
+					plik.open(nazwaPliku, ios::out); /*Stworzenie pustego pliku*/
 					plik << "";
 					plik.close();
 					cout << "Plik zostal wyczyszcony.";
